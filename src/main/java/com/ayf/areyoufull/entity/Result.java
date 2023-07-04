@@ -1,21 +1,9 @@
 package com.ayf.areyoufull.entity;
 
 public class Result {
-    /**
-     * 成功
-     */
     public static final int CODE_OK = 200;
-    /**
-     * 业务错误
-     */
     public static final int CODE_ERR_BUSINESS = 501;
-    /**
-     * 用户未登录
-     */
-    public static final int CODE_ERR_UNLOGINED = 502;
-    /**
-     * 系统错误
-     */
+    public static final int CODE_ERR_UNLOGIN = 502;
     public static final int CODE_ERR_SYS = 503;
 
     private int code;
@@ -31,22 +19,22 @@ public class Result {
     }
 
     public static Result ok(){
-        return new Result(CODE_OK,true,null, null);
+        return new Result(CODE_OK, true, null, null);
     }
     public static Result ok(String message){
-        return new Result(CODE_OK,true,message, null);
+        return new Result(CODE_OK, true, message, null);
     }
     public static Result ok(Object data){
-        return new Result(CODE_OK,true,null, data);
+        return new Result(CODE_OK, true, null, data);
     }
     public static Result ok(String message, Object data){
-        return new Result(CODE_OK,true,message, data);
+        return new Result(CODE_OK, true, message, data);
     }
     public static Result err(int errCode, String message){
-        return new Result(errCode,false,message, null);
+        return new Result(errCode, false, message, null);
     }
-    public static Result err(int errCode,String message,Object data){
-        return new Result(errCode,false,message, data);
+    public static Result err(int errCode, String message, Object data){
+        return new Result(errCode, false,  message, data);
     }
 
     public int getCode() {

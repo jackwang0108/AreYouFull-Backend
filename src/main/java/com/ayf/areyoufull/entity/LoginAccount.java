@@ -1,6 +1,6 @@
 package com.ayf.areyoufull.entity;
 
-public class LoginUser {
+public class LoginAccount {
     private Integer accountID;
     private String password;
     private String verificationCode;
