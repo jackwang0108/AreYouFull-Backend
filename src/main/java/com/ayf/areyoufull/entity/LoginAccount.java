@@ -6,6 +6,15 @@ public class LoginAccount {
     private String verificationCode;
     private String verificationKey;
 
+    public LoginAccount() {}
+
+    public LoginAccount(Integer accountID, String password, String verificationCode, String verificationKey) {
+        this.accountID = accountID;
+        this.password = password;
+        this.verificationCode = verificationCode;
+        this.verificationKey = verificationKey;
+    }
+
     public Integer getAccountID() {
         return accountID;
     }

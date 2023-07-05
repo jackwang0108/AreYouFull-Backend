@@ -9,7 +9,6 @@ import com.ayf.areyoufull.utils.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,12 +47,13 @@ public class RegisterController {
                 Deliverer deliverer = new Deliverer();
                 deliverer.setDelivererID(nextID);
                 deliverer.setAccount(account);
-
+                delivererService.newDeliverer(deliverer);
             }
             case 2 -> {
                 Shop shop = new Shop();
                 shop.setMerchantID(nextID);
                 shop.setAccount(account);
+
             }
             default -> {
 

@@ -5,6 +5,14 @@ public class OrderDetail {
     private Integer merchandiseID;
     private Integer orderNum;
 
+    public OrderDetail() {}
+
+    public OrderDetail(Integer orderID, Integer merchandiseID, Integer orderNum) {
+        this.orderID = orderID;
+        this.merchandiseID = merchandiseID;
+        this.orderNum = orderNum;
+    }
+
     public Integer getOrderID() {
         return orderID;
     }

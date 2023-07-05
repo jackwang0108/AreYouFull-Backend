@@ -30,7 +30,7 @@ public class VerificationCodeController {
         VerificationCodeController.stringRedisTemplate = stringRedisTemplate;
     }
 
-    @GetMapping("/captchaImage")
+    @GetMapping("/captchaImg")
     public Result getCaptchaImage() {
         ByteArrayOutputStream baos = null;
         try {

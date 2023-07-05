@@ -5,6 +5,14 @@ public class Address {
     private String address;
     private String phone;
 
+    public Address() {}
+
+    public Address(Integer accountID, String address, String phone) {
+        this.accountID = accountID;
+        this.address = address;
+        this.phone = phone;
+    }
+
     public Integer getAccountID() {
         return accountID;
     }

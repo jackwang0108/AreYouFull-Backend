@@ -1,6 +1,5 @@
 package com.ayf.areyoufull.mapper;
 
-import com.ayf.areyoufull.dao.UserDao;
 import com.ayf.areyoufull.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 

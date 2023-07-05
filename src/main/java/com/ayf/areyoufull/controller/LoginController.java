@@ -14,7 +14,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/logging")
 public class LoginController {
     private UserService userService;
     private static StringRedisTemplate stringRedisTemplate;

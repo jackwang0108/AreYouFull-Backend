@@ -4,6 +4,13 @@ public class Deliverer {
     private Integer delivererID;
     private Account account;
 
+    public Deliverer() {}
+
+    public Deliverer(Integer delivererID, Account account) {
+        this.delivererID = delivererID;
+        this.account = account;
+    }
+
     public Integer getDelivererID() {
         return delivererID;
     }

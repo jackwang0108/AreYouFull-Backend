@@ -8,6 +8,17 @@ public class Merchandise {
     private String merchandiseImgPath;
     private Byte merchandiseStatus;
 
+    public Merchandise() {}
+
+    public Merchandise(Integer shopID, Integer merchandiseID, String merchandiseName, Float merchandisePrice, String merchandiseImgPath, Byte merchandiseStatus) {
+        this.shopID = shopID;
+        this.merchandiseID = merchandiseID;
+        this.merchandiseName = merchandiseName;
+        this.merchandisePrice = merchandisePrice;
+        this.merchandiseImgPath = merchandiseImgPath;
+        this.merchandiseStatus = merchandiseStatus;
+    }
+
     public Integer getMerchandiseID() {
         return merchandiseID;
     }

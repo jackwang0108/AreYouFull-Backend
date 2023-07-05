@@ -7,8 +7,7 @@ public class RegisterAccount {
     private String accountPhone;
     private String email;
 
-    public RegisterAccount() {
-    }
+    public RegisterAccount() {}
 
     public RegisterAccount(int type, String password, String accountPhone) {
         this.type = type;

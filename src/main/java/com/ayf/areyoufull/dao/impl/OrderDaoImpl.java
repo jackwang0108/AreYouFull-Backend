@@ -13,4 +13,9 @@ public class OrderDaoImpl implements OrderDao {
     public OrderDaoImpl(OrderMapper orderMapper) {
         this.orderMapper = orderMapper;
     }
+
+    @Override
+    public Integer getNextID() {
+        return orderMapper.getNextID();
+    }
 }

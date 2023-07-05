@@ -1,9 +1,15 @@
 package com.ayf.areyoufull.entity;
 
 
+import com.ayf.areyoufull.service.IDService;
+
 import java.util.Date;
 
-public class Orders {
+public class Order {
+    public static Order createOrder(Integer userID, Integer shopID, OrderDetail orderDetail){
+        return new Order(IDService.getNextOrderID(), userID, shopID, null, orderDetail, (byte)0, new Date(), null, null, null, null, null);
+    }
+
     private Integer orderID;
     private Integer userID;
     private Integer shopID;
@@ -16,6 +22,23 @@ public class Orders {
     private Date merchantFinishTime;
     private Date delivererGetTime;
     private Date finishTime;
+
+    public Order() {}
+
+    public Order(Integer orderID, Integer userID, Integer shopID, Integer delivererID, OrderDetail orderDetail, Byte status, Date createTime, Date payTime, Date merchantAssumeTime, Date merchantFinishTime, Date delivererGetTime, Date finishTime) {
+        this.orderID = orderID;
+        this.userID = userID;
+        this.shopID = shopID;
+        this.delivererID = delivererID;
+        this.orderDetail = orderDetail;
+        this.status = status;
+        this.createTime = createTime;
+        this.payTime = payTime;
+        this.merchantAssumeTime = merchantAssumeTime;
+        this.merchantFinishTime = merchantFinishTime;
+        this.delivererGetTime = delivererGetTime;
+        this.finishTime = finishTime;
+    }
 
     public Integer getOrderID() {
         return orderID;

@@ -13,4 +13,9 @@ public class MerchandiseDaoImpl implements MerchandiseDao {
     public MerchandiseDaoImpl(MerchandiseMapper merchandiseMapper) {
         this.merchandiseMapper = merchandiseMapper;
     }
+
+    @Override
+    public Integer getNextID() {
+        return merchandiseMapper.getNextID();
+    }
 }

@@ -4,8 +4,7 @@ public class CurrentAccount {
     private Integer accountID;
     private String nickname;
 
-    public CurrentAccount() {
-    }
+    public CurrentAccount() {}
 
     public CurrentAccount(Integer accountID, String nickname) {
         this.accountID = accountID;

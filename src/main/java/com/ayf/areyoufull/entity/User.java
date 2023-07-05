@@ -7,6 +7,14 @@ public class User {
     private Account account;
     private Address[] addresses;
 
+    public User() {}
+
+    public User(Integer userID, Account account, Address[] addresses) {
+        this.userID = userID;
+        this.account = account;
+        this.addresses = addresses;
+    }
+
     public Integer getUserID() {
         return userID;
     }
