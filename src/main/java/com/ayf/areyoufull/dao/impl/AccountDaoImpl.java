@@ -19,4 +19,14 @@ public class AccountDaoImpl implements AccountDao {
     public Account findByID(Integer id) {
         return accountMapper.findByID(id);
     }
+
+    @Override
+    public void newAccount(Account account) {
+        accountMapper.newAccount(account);
+    }
+
+    @Override
+    public Integer getNextID() {
+        return accountMapper.getNextID();
+    }
 }

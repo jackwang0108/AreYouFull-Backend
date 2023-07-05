@@ -19,4 +19,9 @@ public class UserDaoImpl implements UserDao {
     public User findByID(Integer id) {
         return userMapper.findByID(id);
     }
+
+    @Override
+    public void newUser(User user) {
+        userMapper.newUser(user);
+    }
 }

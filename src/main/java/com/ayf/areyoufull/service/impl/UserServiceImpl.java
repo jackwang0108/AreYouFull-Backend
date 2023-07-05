@@ -26,4 +26,10 @@ public class UserServiceImpl implements UserService {
         userDaoByID.setAccount(accountDaoByID);
         return userDaoByID;
     }
+
+    @Override
+    public void newUser(User user) {
+        accountDao.newAccount(user.getAccount());
+        userDao.newUser(user);
+    }
 }

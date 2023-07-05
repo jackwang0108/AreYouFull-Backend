@@ -1,11 +1,14 @@
 package com.ayf.areyoufull.entity;
 
 public class RegisterAccount {
-    private int type;
+    private int type;   // 0: user, 1: deliverer, 2: shop
     private String password;
     private String nickname;
     private String accountPhone;
     private String email;
+
+    public RegisterAccount() {
+    }
 
     public RegisterAccount(int type, String password, String accountPhone) {
         this.type = type;

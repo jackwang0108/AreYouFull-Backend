@@ -3,6 +3,7 @@ package com.ayf.areyoufull.entity;
 public class Shop {
     private Integer shopID;
     private Integer merchantID;
+    private Account account;
     private String shopName;
     private String shopImg;
     private String shopIntro;
@@ -21,6 +22,14 @@ public class Shop {
 
     public void setMerchantID(Integer merchantID) {
         this.merchantID = merchantID;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public String getShopName() {

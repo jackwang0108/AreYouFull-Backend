@@ -1,6 +1,7 @@
 package com.ayf.areyoufull.entity;
 
 public class Account {
+    public static final String defaultAvatar = "./default.jpg";
     private Integer accountID;
     private String password;
     private String nickname;

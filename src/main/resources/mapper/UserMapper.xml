@@ -4,4 +4,7 @@
     <select id="findByID" resultType="com.ayf.areyoufull.entity.User">
         select * from user where userID = #{userID}
     </select>
+    <insert id="newUser" parameterType="com.ayf.areyoufull.entity.User">
+        insert into user(userID) values(#{userID})
+    </insert>
 </mapper>

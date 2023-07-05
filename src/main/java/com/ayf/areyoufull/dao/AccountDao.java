@@ -4,4 +4,6 @@ import com.ayf.areyoufull.entity.Account;
 
 public interface AccountDao {
     Account findByID(Integer id);
+    void newAccount(Account account);
+    Integer getNextID();
 }

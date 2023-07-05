@@ -4,4 +4,11 @@
     <select id="findByID" resultType="com.ayf.areyoufull.entity.Account">
         select * from account where accountID = #{accountID}
     </select>
+    <insert id="newAccount" parameterType="com.ayf.areyoufull.entity.Account">
+        insert into account(accountID, password, nickname, accountPhone, email, avatar)
+        values(#{accountID}, #{password}, #{nickname}, #{accountPhone}, #{email}, #{avatar})
+    </insert>
+    <select id="getNextID" resultType="Integer">
+        select max(accountID) + 1 from account;
+    </select>
 </mapper>

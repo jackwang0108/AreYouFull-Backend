@@ -13,4 +13,9 @@ public class AccountServiceImpl implements AccountService {
     public AccountServiceImpl(AccountDao accountDao) {
         this.accountDao = accountDao;
     }
+
+    @Override
+    public Integer getNextID() {
+        return accountDao.getNextID();
+    }
 }
