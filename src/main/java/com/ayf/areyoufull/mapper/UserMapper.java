@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper {
-    User findByID(@Param("userID") Integer userID);
     Integer newUser(@Param("user") User user);
+    Integer deleteByUserID(@Param("userID") Integer userID);
+    Integer updateUser(@Param("user") User user);
+    User findByID(@Param("userID") Integer userID);
 }

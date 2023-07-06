@@ -19,8 +19,13 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Shop getShopByID(Integer id) {
-        return shopDao.findShopByID(id);
+    public Shop getShopByShopID(Integer shopID) {
+        return shopDao.findShopByShopID(shopID);
+    }
+
+    @Override
+    public Shop getShopByMerchantID(Integer merchantID) {
+        return shopDao.findShopByMerchantID(merchantID);
     }
 
     @Override
@@ -35,11 +40,11 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public void remove(List<Integer> ids) {
-        ids.forEach(shopDao::removeMerchandiseByID);
+        ids.forEach(shopDao::removeMerchandiseByMerchandiseID);
     }
 
     @Override
     public List<Merchandise> getMerchandiseOfShop(Integer shopID) {
-        return shopDao.merchandisesOfShop(shopID);
+        return shopDao.getMerchandisesOfShop(shopID);
     }
 }

@@ -6,10 +6,12 @@ import com.ayf.areyoufull.entity.Shop;
 import java.util.List;
 
 public interface ShopDao {
-    Shop findShopByID(Integer id);
     void newShop(Shop shop);
     void publishMerchandise(Merchandise merchandise);
-    void removeMerchandiseByID(Integer id);
-    List<Merchandise> merchandisesOfShop(Integer shopID);
+    void removeMerchandiseByMerchandiseID(Integer merchandiseID);
+    void removeAllFromShop(Integer shopID);
+    List<Merchandise> getMerchandisesOfShop(Integer shopID);
+    Shop findShopByShopID(Integer shopID);
+    Shop findShopByMerchantID(Integer merchantID);
     Integer getNextID();
 }

@@ -17,7 +17,7 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Account findByID(Integer id) {
-        return accountMapper.findByID(id);
+        return accountMapper.findByAccountID(id);
     }
 
     @Override

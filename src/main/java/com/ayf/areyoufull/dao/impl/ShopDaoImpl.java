@@ -2,6 +2,7 @@ package com.ayf.areyoufull.dao.impl;
 
 import com.ayf.areyoufull.dao.ShopDao;
 import com.ayf.areyoufull.entity.Account;
+import com.ayf.areyoufull.entity.Address;
 import com.ayf.areyoufull.entity.Merchandise;
 import com.ayf.areyoufull.entity.Shop;
 import com.ayf.areyoufull.mapper.*;
@@ -28,16 +29,29 @@ public class ShopDaoImpl implements ShopDao {
     }
 
     @Override
-    public Shop findShopByID(Integer id) {
-        Shop shop = shopMapper.findByID(id);
-        Account account = accountMapper.findByID(shop.getMerchantID());
+    public Shop findShopByShopID(Integer shopID) {
+        Shop shop = shopMapper.findByShopID(shopID);
+        Account account = accountMapper.findByAccountID(shop.getMerchantID());
         shop.setAccount(account);
+        List<Address> addresses = addressMapper.findByAccountID(account.getAccountID());
+        shop.setAddress(addresses.get(0));
+        return shop;
+    }
+
+    @Override
+    public Shop findShopByMerchantID(Integer merchantID) {
+        Shop shop = shopMapper.findByMerchantID(merchantID);
+        Account account = accountMapper.findByAccountID(shop.getMerchantID());
+        shop.setAccount(account);
+        List<Address> address = addressMapper.findByAccountID(account.getAccountID());
+        shop.setAddress(address.get(0));
         return shop;
     }
 
     @Override
     public void newShop(Shop shop) {
         accountMapper.newAccount(shop.getAccount());
+        addressMapper.newAddress(shop.getAddress());
         shopMapper.newShop(shop);
     }
 
@@ -47,11 +61,17 @@ public class ShopDaoImpl implements ShopDao {
     }
 
     @Override
-    public void removeMerchandiseByID(Integer id) {
+    public void removeMerchandiseByMerchandiseID(Integer merchandiseID) {
+        merchandiseMapper.deleteByMerchandiseID(merchandiseID);
     }
 
     @Override
-    public List<Merchandise> merchandisesOfShop(Integer shopID) {
+    public void removeAllFromShop(Integer shopID) {
+        merchandiseMapper.deleteByShopID(shopID);
+    }
+
+    @Override
+    public List<Merchandise> getMerchandisesOfShop(Integer shopID) {
         return merchandiseMapper.findByShopID(shopID);
     }
 

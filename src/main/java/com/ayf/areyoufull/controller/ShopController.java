@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/shop/{shopID}")
+@RequestMapping("/shop/{merchantID}")
 public class ShopController {
     private final ShopService shopService;
 
@@ -50,19 +50,12 @@ public class ShopController {
         return Result.ok();
     }
 
-
-    @GetMapping("/home")
-    public Result homePage(@PathVariable Integer shopID){
-        return Result.ok();
-    }
-
-
-    @PostMapping("/publish")
-    public Result publish(@PathVariable Integer shopID, @RequestBody List<Merchandise> merchandises){
+    @PostMapping("/merchandise/publish")
+    public Result publish(@PathVariable Integer merchantID, @RequestBody List<Merchandise> merchandises){
         Integer id = IDGenerator.getMerchandiseNextID();
         for (Merchandise merchandise : merchandises) {
             merchandise.setMerchandiseID(id++);
-            merchandise.setShopID(shopID);
+            merchandise.setShopID(merchantID);
             merchandise.setMerchandiseStatus((byte) 0);
             merchandise.setMerchandiseImgPath(Merchandise.defaultImgPath);
         }
@@ -70,14 +63,26 @@ public class ShopController {
         return Result.ok("上架商品成功");
     }
 
+    @PostMapping("/merchandise/remove")
+    public Result remove(@RequestBody List<Integer> merchandiseIDs){
+        shopService.remove(merchandiseIDs);
+        return Result.ok("下架商品成功");
+    }
+
+    @GetMapping("/home")
+    public Result homePage(@PathVariable Integer merchantID){
+        return preview(merchantID);
+    }
+
     @GetMapping("/preview")
-    public Result preview(@PathVariable Integer shopID){
-        List<Merchandise> merchandises = shopService.getMerchandiseOfShop(shopID);
+    public Result preview(@PathVariable Integer merchantID){
+        List<Merchandise> merchandises = shopService.getMerchandiseOfShop(merchantID);
         return Result.ok("获取成功", merchandises);
     }
 
     @GetMapping("/info")
-    public Result getInfo(@PathVariable Integer shopID){
+    public Result getInfo(@PathVariable Integer merchantID){
+        Shop shop = shopService.getShopByMerchantID(merchantID);
         return Result.ok();
     }
 

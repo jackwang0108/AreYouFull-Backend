@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface AccountMapper {
-    Account findByID(@Param("accountID") Integer accountID);
     Integer newAccount(@Param("account") Account account);
+    Integer deleteByAccountID(@Param("accountID") Integer accountID);
+    Integer updateAccount(@Param("account") Account account);
+    Account findByAccountID(@Param("accountID") Integer accountID);
     Integer getNextID();
 }

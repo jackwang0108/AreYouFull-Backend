@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ayf.areyoufull.mapper.AccountMapper">
-    <select id="findByID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Account">
-        select * from account where accountID = #{accountID}
-    </select>
     <insert id="newAccount" parameterType="com.ayf.areyoufull.entity.Account">
         insert into account(accountID, password, nickname, accountPhone, email, avatar)
         values(#{account.accountID},
@@ -13,6 +10,36 @@
                #{account.email},
                #{account.avatar})
     </insert>
+    <delete id="deleteByAccountID" parameterType="Integer">
+        delete from account
+        where accountID = #{account.accountID}
+    </delete>
+    <update id="updateAccount" parameterType="com.ayf.areyoufull.entity.Account">
+        update account
+        <set>
+            <if test="password != null">
+                password = #{account.password},
+            </if>
+            <if test="nickname != null">
+                nickname = #{account.nickname},
+            </if>
+            <if test="accountPhone != null">
+                accountPhone = #{account.accountPhone},
+            </if>
+            <if test="email != null">
+                email = #{account.email},
+            </if>
+            <if test="avatar != null">
+                avatar = #{account.avatar}
+            </if>
+        </set>
+        where accountID = #{account.accountID}
+    </update>
+    <select id="findByAccountID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Account">
+        select *
+        from account
+        where accountID = #{accountID}
+    </select>
     <select id="getNextID" resultType="Integer">
         select max(accountID) + 1 from account
     </select>

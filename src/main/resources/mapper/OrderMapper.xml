@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ayf.areyoufull.mapper.OrderMapper">
-    <select id="findByID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Order">
-        select * from orders where orderID = #{orderID}
-    </select>
     <insert id="newOrder" parameterType="com.ayf.areyoufull.entity.Order">
         insert into orders(orderID, delivererID, userID, shopID, status, createTime, payTime, merchantAssureTime, merchantFinishTime, delivererGetTime, finishTime)
         values(#{order.orderID},
@@ -18,6 +15,63 @@
                #{order.delivererGetTime},
                #{order.finishTime})
     </insert>
+    <delete id="deleteByOrderID" parameterType="Integer">
+        delete from orders
+        where orderID = #{orderID}
+    </delete>
+    <delete id="deleteByUserID" parameterType="Integer">
+        delete from orders
+        where userID = #{userID}
+    </delete>
+    <delete id="deleteByDelivererID" parameterType="Integer">
+        delete from orders
+        where delivererID = {#delivererID}
+    </delete>
+    <delete id="deleteByShopID" parameterType="Integer">
+        delete from orders
+        where shopID = #{shopID}
+    </delete>
+    <update id="updateOrder" parameterType="com.ayf.areyoufull.entity.Order">
+        update orders
+        <set>
+            <if test="delivererID != null">
+                delivererID = #{order.delivererID},
+            </if>
+            <if test="payTime != null">
+                payTime = #{order.payTime},
+            </if>
+            <if test="merchantAssumeTime != null">
+                merchantAssumeTime = #{order.merchantAssumeTime},
+            </if>
+            <if test="merchantFinishTime != null">
+                merchantFinishTime = #{order.merchantFinishTime},
+            </if>
+            <if test="finishTime != null">
+                finishTime = #{order.finishTime}
+            </if>
+        </set>
+        where orderID = #{order.orderID}
+    </update>
+    <select id="findByOrderID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Order">
+        select *
+        from orders
+        where orderID = #{orderID}
+    </select>
+    <select id="findByUserID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Order">
+        select *
+        from orders
+        where userID = #{userID}
+    </select>
+    <select id="findByDelivererID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Order">
+        select *
+        from orders
+        where delivererID = #{delivererID}
+    </select>
+    <select id="findByShopID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Order">
+        select *
+        from orders
+        where shopID = #{shopID}
+    </select>
     <select id="getNextID" resultType="Integer">
         select max(orderID) + 1 from orders
     </select>

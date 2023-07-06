@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface DelivererMapper {
-    Deliverer findByID(@Param("delivererID") Integer delivererID);
     Integer newDeliverer(@Param("deliverer") Deliverer deliverer);
+    Integer deleteByDelivererID(@Param("delivererID") Integer delivererID);
+    Integer updateDeliverer(@Param("deliverer") Deliverer deliverer);
+    Deliverer findByDelivererID(@Param("delivererID") Integer delivererID);
 }

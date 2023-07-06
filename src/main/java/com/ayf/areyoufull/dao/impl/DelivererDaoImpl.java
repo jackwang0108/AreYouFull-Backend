@@ -24,8 +24,8 @@ public class DelivererDaoImpl implements DelivererDao {
 
     @Override
     public Deliverer findDelivererByID(Integer id) {
-        Deliverer deliverer = delivererMapper.findByID(id);
-        Account account = accountMapper.findByID(id);
+        Deliverer deliverer = delivererMapper.findByDelivererID(id);
+        Account account = accountMapper.findByAccountID(id);
         deliverer.setAccount(account);
         return deliverer;
     }

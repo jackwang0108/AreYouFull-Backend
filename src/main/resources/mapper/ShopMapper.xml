@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ayf.areyoufull.mapper.ShopMapper">
-    <select id="findByID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Shop">
-        select * from shop where shopID = #{shopID}
-    </select>
     <insert id="newShop" parameterType="com.ayf.areyoufull.entity.Shop">
         insert into shop(shopID, merchantID, shopName)
         values(#{shop.shopID},
                #{shop.merchantID},
                #{shop.shopName})
     </insert>
+    <delete id="deleteByShopID" parameterType="Integer">
+        delete from shop
+        where shopID = #{shopID}
+    </delete>
+    <update id="updateShop" parameterType="com.ayf.areyoufull.entity.Shop">
+        update shop
+        set shopName = #{shop.shopName}
+        where shopID = #{shop.shopID} or merchantID = #{shop.merchantID}
+    </update>
+    <select id="findByShopID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Shop">
+        select * from shop where shopID = #{shopID}
+    </select>
+    <select id="findByMerchantID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Shop">
+        select * from shop where merchantID = #{merchantID}
+    </select>
+
+
 </mapper>

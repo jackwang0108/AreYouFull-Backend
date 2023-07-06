@@ -8,8 +8,11 @@ import java.util.List;
 
 @Mapper
 public interface MerchandiseMapper {
-    Merchandise findByID(@Param("merchandiseID") Integer merchandiseID);
     Integer newMerchandise(@Param("merchandise") Merchandise merchandise);
+    Integer deleteByMerchandiseID(@Param("merchandiseID") Integer merchandiseID);
+    Integer deleteByShopID(@Param("shopID") Integer shopID);
+    Integer updateMerchandise(@Param("merchandise") Merchandise merchandise);
+    Merchandise findByMerchandiseID(@Param("merchandiseID") Integer merchandiseID);
     List<Merchandise> findByShopID(@Param("shopID") Integer shopID);
     Integer getNextID();
 }

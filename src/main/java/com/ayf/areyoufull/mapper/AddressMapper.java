@@ -8,6 +8,9 @@ import java.util.List;
 
 @Mapper
 public interface AddressMapper {
-    List<Address> findByAccountID(@Param("accountID") Integer accountID);
     Integer newAddress(@Param("address") Address address);
+    Integer deleteByAddress(@Param("address") Address address);
+    Integer deleteByAccountID(@Param("accountID") Integer accountID);
+    Integer updateAddress(@Param("address") Address address);
+    List<Address> findByAccountID(@Param("accountID") Integer accountID);
 }
