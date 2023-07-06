@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AccountMapper {
-    Integer getNextID();
     Account findByID(Integer id);
     void newAccount(Account account);
+    Integer getNextID();
 }

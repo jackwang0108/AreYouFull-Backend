@@ -1,6 +1,7 @@
 package com.ayf.areyoufull.dao.impl;
 
 import com.ayf.areyoufull.dao.ShopDao;
+import com.ayf.areyoufull.entity.Account;
 import com.ayf.areyoufull.entity.Merchandise;
 import com.ayf.areyoufull.entity.Shop;
 import com.ayf.areyoufull.mapper.AccountMapper;
@@ -24,7 +25,10 @@ public class ShopDaoImpl implements ShopDao {
 
     @Override
     public Shop findShopByID(Integer id) {
-        return shopMapper.findByID(id);
+        Shop shop = shopMapper.findByID(id);
+        Account account = accountMapper.findByID(shop.getMerchantID());
+        shop.setAccount(account);
+        return shop;
     }
 
     @Override

@@ -1,10 +1,7 @@
 package com.ayf.areyoufull.controller;
 
 import com.ayf.areyoufull.entity.*;
-import com.ayf.areyoufull.service.AccountService;
-import com.ayf.areyoufull.service.DelivererService;
-import com.ayf.areyoufull.service.ShopService;
-import com.ayf.areyoufull.service.UserService;
+import com.ayf.areyoufull.service.*;
 import com.ayf.areyoufull.utils.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,19 +13,17 @@ public class RegisterController {
     private final UserService userService;
     private final DelivererService delivererService;
     private final ShopService shopService;
-    private final AccountService accountService;
 
     @Autowired
-    public RegisterController(UserService userService, DelivererService delivererService, ShopService shopService, AccountService accountService) {
+    public RegisterController(UserService userService, DelivererService delivererService, ShopService shopService) {
         this.userService = userService;
         this.delivererService = delivererService;
         this.shopService = shopService;
-        this.accountService = accountService;
     }
 
     @PostMapping("/register")
     public Result register(@RequestBody RegisterAccount registerAccount){
-        Integer nextID = accountService.getNextID();
+        Integer nextID = IDService.getNextAccountID();
         Account account = new Account();
         account.setAccountID(nextID);
         account.setPassword(DigestUtil.hmacSign(registerAccount.getPassword()));
@@ -53,11 +48,9 @@ public class RegisterController {
                 Shop shop = new Shop();
                 shop.setMerchantID(nextID);
                 shop.setAccount(account);
-
+                shopService.newShop(shop);
             }
-            default -> {
-
-            }
+            default -> Result.err(Result.CODE_ERR_BUSINESS, "不支持的用户类型");
         }
         return Result.ok("注册成功", nextID);
     }

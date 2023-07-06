@@ -53,7 +53,7 @@ public class TokenUtils {
         return token;
     }
 
-    public static CurrentAccount getCurrentUser(String clientToken) {
+    public static CurrentAccount getCurrentAccount(String clientToken) {
         if(!StringUtils.hasText(clientToken)){
             throw new BusinessException("令牌为空！请登录。");
         }
@@ -71,7 +71,7 @@ public class TokenUtils {
     }
 
     public static void verify(String clientToken) {
-        CurrentAccount currentUser = getCurrentUser(clientToken);
+        CurrentAccount currentUser = getCurrentAccount(clientToken);
         String password;
         try {
             password = accountDao.findByID(currentUser.getAccountID()).getPassword();

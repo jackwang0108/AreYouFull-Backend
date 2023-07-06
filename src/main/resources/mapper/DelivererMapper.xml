@@ -4,4 +4,8 @@
     <select id="findByID" resultType="com.ayf.areyoufull.entity.Deliverer">
         select * from deliverer where delivererID = #{delivererID}
     </select>
+    <insert id="newDeliverer" parameterType="com.ayf.areyoufull.entity.Deliverer">
+        insert into deliverer(delivererID)
+        values(#{deliverer})
+    </insert>
 </mapper>

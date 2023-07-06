@@ -43,7 +43,7 @@ public class LoginController {
 
     @GetMapping("/curr-user")
     public Result currUser(@RequestHeader(Constraint.HEADER_TOKEN_NAME) String clientToken) {
-        CurrentAccount currentUser = TokenUtils.getCurrentUser(clientToken);
+        CurrentAccount currentUser = TokenUtils.getCurrentAccount(clientToken);
         return Result.ok(currentUser);
     }
 

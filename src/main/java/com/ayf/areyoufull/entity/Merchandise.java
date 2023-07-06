@@ -1,12 +1,14 @@
 package com.ayf.areyoufull.entity;
 
 public class Merchandise {
+    public static final String defaultImgPath = "./default.jpg";
+
     private Integer shopID;
     private Integer merchandiseID;
     private String merchandiseName;
     private Float merchandisePrice;
     private String merchandiseImgPath;
-    private Byte merchandiseStatus;
+    private Byte merchandiseStatus; // 0: 正常; 1: 缺货; 2：下架
 
     public Merchandise() {}
 
