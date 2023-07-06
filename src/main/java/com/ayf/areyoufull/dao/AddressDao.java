@@ -1,5 +1,7 @@
 package com.ayf.areyoufull.dao;
 
-public interface AddressDao {
+import com.ayf.areyoufull.entity.Address;
 
+public interface AddressDao {
+    void newAddress(Address address);
 }

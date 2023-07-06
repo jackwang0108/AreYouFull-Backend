@@ -6,7 +6,6 @@ public class Shop {
     private Integer shopID;
     private Integer merchantID;
     private Account account;
-    private HashMap<Integer, Merchandise> merchandises;
     private String shopName;
     private String shopImg;
     private String shopIntro;
@@ -17,7 +16,6 @@ public class Shop {
         this.shopID = shopID;
         this.merchantID = merchantID;
         this.account = account;
-        this.merchandises = merchandises;
         this.shopName = shopName;
         this.shopImg = shopImg;
         this.shopIntro = shopIntro;
@@ -45,14 +43,6 @@ public class Shop {
 
     public void setAccount(Account account) {
         this.account = account;
-    }
-
-    public void publishMerchandise(Merchandise merchandise){
-        merchandises.put(merchandise.getMerchandiseID(), merchandise);
-    }
-
-    public void removeMerchandise(Integer id){
-        merchandises.remove(id);
     }
 
     public String getShopName() {

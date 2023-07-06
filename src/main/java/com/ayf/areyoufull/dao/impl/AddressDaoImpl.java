@@ -1,6 +1,7 @@
 package com.ayf.areyoufull.dao.impl;
 
 import com.ayf.areyoufull.dao.AddressDao;
+import com.ayf.areyoufull.entity.Address;
 import com.ayf.areyoufull.mapper.AddressMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,5 +13,10 @@ public class AddressDaoImpl implements AddressDao {
     @Autowired
     public AddressDaoImpl(AddressMapper addressMapper) {
         this.addressMapper = addressMapper;
+    }
+
+    @Override
+    public void newAddress(Address address) {
+        addressMapper.newAddress(address);
     }
 }

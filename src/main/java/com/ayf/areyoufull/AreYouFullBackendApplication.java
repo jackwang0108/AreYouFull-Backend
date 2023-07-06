@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
 @MapperScan("com.ayf.areyoufull.mapper")
-@ServletComponentScan(basePackages = {"com.ayf.areyoufull.filter"})
+//@ServletComponentScan(basePackages = {"com.ayf.areyoufull.filter"})
 public class AreYouFullBackendApplication {
 
 	public static void main(String[] args) {

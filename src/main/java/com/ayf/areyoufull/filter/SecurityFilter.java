@@ -15,14 +15,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Slf4j
-@WebFilter(urlPatterns = "/*")
+@WebFilter("/*")
 public class SecurityFilter implements Filter {
-    private final LoginController loginController;
-
     @Autowired
-    public SecurityFilter(LoginController loginController) {
-        this.loginController = loginController;
-    }
+    private LoginController loginController;
+
+//    @Autowired
+//    public SecurityFilter(LoginController loginController) {
+//        this.loginController = loginController;
+//    }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {}
@@ -32,6 +33,7 @@ public class SecurityFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String path = request.getServletPath();
+        System.out.println(path);
 
         // 白名单
         if(path.equals("/")
