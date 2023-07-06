@@ -23,7 +23,7 @@ public class DelivererDaoImpl implements DelivererDao {
     }
 
     @Override
-    public Deliverer findDelivererByID(Integer id) {
+    public Deliverer findDelivererByDelivererID(Integer id) {
         Deliverer deliverer = delivererMapper.findByDelivererID(id);
         Account account = accountMapper.findByAccountID(id);
         deliverer.setAccount(account);
@@ -34,5 +34,17 @@ public class DelivererDaoImpl implements DelivererDao {
     public void newDeliverer(Deliverer deliverer) {
         accountMapper.newAccount(deliverer.getAccount());
         delivererMapper.newDeliverer(deliverer);
+    }
+
+    @Override
+    public void modifyDelivererInfo(Deliverer deliverer) {
+        accountMapper.updateAccount(deliverer.getAccount());
+        delivererMapper.updateDeliverer(deliverer);
+    }
+
+    @Override
+    public void terminateByDeliverer(Deliverer deliverer) {
+        delivererMapper.deleteByDelivererID(deliverer.getDelivererID());
+        accountMapper.deleteByAccountID(deliverer.getDelivererID());
     }
 }

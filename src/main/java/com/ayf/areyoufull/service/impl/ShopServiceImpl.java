@@ -44,7 +44,22 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<Merchandise> getMerchandiseOfShop(Integer shopID) {
-        return shopDao.getMerchandisesOfShop(shopID);
+    public List<Merchandise> getMerchandisesByShopID(Integer shopID) {
+        return shopDao.getMerchandisesByShopID(shopID);
+    }
+
+    @Override
+    public List<Merchandise> getMerchandisesByMerchantID(Integer merchantID) {
+        return shopDao.getMerchandisesByMerchantID(merchantID);
+    }
+
+    @Override
+    public void modifyShopInfo(Shop shop) {
+        shopDao.modifyShopInfo(shop);
+    }
+
+    @Override
+    public void terminateShop(Shop shop) {
+        shopDao.terminateByShop(shop);
     }
 }

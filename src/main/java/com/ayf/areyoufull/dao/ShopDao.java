@@ -10,8 +10,12 @@ public interface ShopDao {
     void publishMerchandise(Merchandise merchandise);
     void removeMerchandiseByMerchandiseID(Integer merchandiseID);
     void removeAllFromShop(Integer shopID);
-    List<Merchandise> getMerchandisesOfShop(Integer shopID);
+    List<Merchandise> getMerchandisesByShopID(Integer shopID);
+    List<Merchandise> getMerchandisesByMerchantID(Integer merchantID);
     Shop findShopByShopID(Integer shopID);
     Shop findShopByMerchantID(Integer merchantID);
     Integer getNextID();
+    void modifyShopInfo(Shop shop);
+    void terminateByShop(Shop shop);
+    List<Shop> findRandomShopWithAmount(Integer amount);
 }

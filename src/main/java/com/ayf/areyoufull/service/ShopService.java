@@ -11,5 +11,8 @@ public interface ShopService {
     void newShop(Shop shop);
     void publish(List<Merchandise> merchandises);
     void remove(List<Integer> ids);
-    List<Merchandise> getMerchandiseOfShop(Integer shopID);
+    List<Merchandise> getMerchandisesByShopID(Integer shopID);
+    List<Merchandise> getMerchandisesByMerchantID(Integer merchantID);
+    void modifyShopInfo(Shop shop);
+    void terminateShop(Shop shop);
 }

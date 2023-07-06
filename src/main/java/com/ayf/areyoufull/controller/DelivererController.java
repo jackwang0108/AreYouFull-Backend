@@ -53,21 +53,24 @@ public class DelivererController {
 
     @GetMapping("/home")
     public Result homePage(@PathVariable Integer delivererID){
-        return Result.ok();
+        return Result.ok("获取成功", "没有主页");
     }
 
     @GetMapping("/info")
     public Result getInfo(@PathVariable Integer delivererID){
-        return Result.ok();
+        Deliverer deliverer = delivererService.getDelivererByDelivererID(delivererID);
+        return Result.ok("获取成功", deliverer);
     }
 
     @PostMapping("/modify")
     public Result modifyInfo(Deliverer deliverer){
-        return Result.ok();
+        delivererService.modifyDelivererInfo(deliverer);
+        return Result.ok("");
     }
 
     @DeleteMapping("/terminate")
     public Result terminateAccount(Deliverer deliverer){
+        delivererService.terminateByDeliverer(deliverer);
         return Result.ok();
     }
 }

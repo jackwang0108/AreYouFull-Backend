@@ -33,7 +33,7 @@ public class LoginController {
         String key = LoginController.stringRedisTemplate.opsForValue().get(loginUser.getVerificationKey());
         if (!loginUser.getVerificationCode().equals(key))
             return Result.err(Result.CODE_ERR_BUSINESS, "验证码错误");
-        User byID = userService.getUserByID(loginUser.getAccountID());
+        User byID = userService.getUserByUserID(loginUser.getAccountID());
         if (DigestUtil.hmacSign(loginUser.getPassword()).equals(byID.getAccount().getPassword())) {
             String token = key;
             return Result.ok("登陆成功", token);

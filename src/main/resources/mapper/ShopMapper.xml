@@ -17,11 +17,19 @@
         where shopID = #{shop.shopID} or merchantID = #{shop.merchantID}
     </update>
     <select id="findByShopID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Shop">
-        select * from shop where shopID = #{shopID}
+        select *
+        from shop
+        where shopID = #{shopID}
     </select>
     <select id="findByMerchantID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Shop">
-        select * from shop where merchantID = #{merchantID}
+        select *
+        from shop
+        where merchantID = #{merchantID}
     </select>
-
+    <select id="findRandomShopWithAmount" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Shop">
+        select *
+        from shop
+        limit #{amount}
+    </select>
 
 </mapper>

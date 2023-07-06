@@ -12,7 +12,7 @@ public interface MerchandiseMapper {
     Integer deleteByMerchandiseID(@Param("merchandiseID") Integer merchandiseID);
     Integer deleteByShopID(@Param("shopID") Integer shopID);
     Integer updateMerchandise(@Param("merchandise") Merchandise merchandise);
-    Merchandise findByMerchandiseID(@Param("merchandiseID") Integer merchandiseID);
+    List<Merchandise> findByMerchandiseID(@Param("merchandiseID") Integer merchandiseID);
     List<Merchandise> findByShopID(@Param("shopID") Integer shopID);
     Integer getNextID();
 }

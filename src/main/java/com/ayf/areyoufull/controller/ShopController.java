@@ -53,9 +53,10 @@ public class ShopController {
     @PostMapping("/merchandise/publish")
     public Result publish(@PathVariable Integer merchantID, @RequestBody List<Merchandise> merchandises){
         Integer id = IDGenerator.getMerchandiseNextID();
+        Integer shopID = shopService.getShopByMerchantID(merchantID).getShopID();
         for (Merchandise merchandise : merchandises) {
             merchandise.setMerchandiseID(id++);
-            merchandise.setShopID(merchantID);
+            merchandise.setShopID(shopID);
             merchandise.setMerchandiseStatus((byte) 0);
             merchandise.setMerchandiseImgPath(Merchandise.defaultImgPath);
         }
@@ -76,23 +77,25 @@ public class ShopController {
 
     @GetMapping("/preview")
     public Result preview(@PathVariable Integer merchantID){
-        List<Merchandise> merchandises = shopService.getMerchandiseOfShop(merchantID);
+        List<Merchandise> merchandises = shopService.getMerchandisesByMerchantID(merchantID);
         return Result.ok("获取成功", merchandises);
     }
 
     @GetMapping("/info")
     public Result getInfo(@PathVariable Integer merchantID){
         Shop shop = shopService.getShopByMerchantID(merchantID);
-        return Result.ok();
+        return Result.ok("获取成功", shop);
     }
 
     @PostMapping("/modify")
-    public Result modifyInfo(Shop shop){
-        return Result.ok();
+    public Result modifyShopInfo(Shop shop){
+        shopService.modifyShopInfo(shop);
+        return Result.ok("更新成功");
     }
 
     @DeleteMapping("/terminate")
-    public Result terminateAccount(Shop shop){
-        return Result.ok();
+    public Result terminateShop(Shop shop){
+        shopService.terminateShop(shop);
+        return Result.ok("注销成功");
     }
 }

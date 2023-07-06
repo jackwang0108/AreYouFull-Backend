@@ -1,15 +1,16 @@
 package com.ayf.areyoufull.entity;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class User {
     private Integer userID;
     private Account account;
-    private Address[] addresses;
+    private List<Address> addresses;
 
     public User() {}
 
-    public User(Integer userID, Account account, Address[] addresses) {
+    public User(Integer userID, Account account, List<Address> addresses) {
         this.userID = userID;
         this.account = account;
         this.addresses = addresses;
@@ -31,11 +32,11 @@ public class User {
         this.account = account;
     }
 
-    public Address[] getAddresses() {
+    public List<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(Address[] addresses) {
+    public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
 
@@ -44,7 +45,7 @@ public class User {
         return "User{" +
                 "userID=" + userID +
                 ", account=" + account +
-                ", addresses=" + Arrays.toString(addresses) +
+                ", addresses=" + addresses +
                 '}';
     }
 }

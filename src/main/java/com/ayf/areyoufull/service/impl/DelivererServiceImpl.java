@@ -16,12 +16,22 @@ public class DelivererServiceImpl implements DelivererService {
     }
 
     @Override
-    public Deliverer getDelivererByID(Integer id) {
-        return delivererDao.findDelivererByID(id);
+    public Deliverer getDelivererByDelivererID(Integer id) {
+        return delivererDao.findDelivererByDelivererID(id);
     }
 
     @Override
     public void newDeliverer(Deliverer deliverer) {
         delivererDao.newDeliverer(deliverer);
+    }
+
+    @Override
+    public void modifyDelivererInfo(Deliverer deliverer) {
+        delivererDao.modifyDelivererInfo(deliverer);
+    }
+
+    @Override
+    public void terminateByDeliverer(Deliverer deliverer) {
+        delivererDao.terminateByDeliverer(deliverer);
     }
 }

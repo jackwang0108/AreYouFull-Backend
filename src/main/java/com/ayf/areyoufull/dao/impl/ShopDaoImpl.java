@@ -34,7 +34,8 @@ public class ShopDaoImpl implements ShopDao {
         Account account = accountMapper.findByAccountID(shop.getMerchantID());
         shop.setAccount(account);
         List<Address> addresses = addressMapper.findByAccountID(account.getAccountID());
-        shop.setAddress(addresses.get(0));
+        if (!addresses.isEmpty())
+            shop.setAddress(addresses.get(0));
         return shop;
     }
 
@@ -43,15 +44,17 @@ public class ShopDaoImpl implements ShopDao {
         Shop shop = shopMapper.findByMerchantID(merchantID);
         Account account = accountMapper.findByAccountID(shop.getMerchantID());
         shop.setAccount(account);
-        List<Address> address = addressMapper.findByAccountID(account.getAccountID());
-        shop.setAddress(address.get(0));
+        List<Address> addresses = addressMapper.findByAccountID(account.getAccountID());
+        if (!addresses.isEmpty())
+            shop.setAddress(addresses.get(0));
         return shop;
     }
 
     @Override
     public void newShop(Shop shop) {
         accountMapper.newAccount(shop.getAccount());
-        addressMapper.newAddress(shop.getAddress());
+        if (shop.getAddress() != null)
+            addressMapper.newAddress(shop.getAddress());
         shopMapper.newShop(shop);
     }
 
@@ -71,12 +74,36 @@ public class ShopDaoImpl implements ShopDao {
     }
 
     @Override
-    public List<Merchandise> getMerchandisesOfShop(Integer shopID) {
+    public List<Merchandise> getMerchandisesByShopID(Integer shopID) {
         return merchandiseMapper.findByShopID(shopID);
+    }
+
+    @Override
+    public List<Merchandise> getMerchandisesByMerchantID(Integer merchantID) {
+        return merchandiseMapper.findByMerchandiseID(merchantID);
     }
 
     @Override
     public Integer getNextID() {
         return shopMapper.getNextID();
+    }
+
+    @Override
+    public void modifyShopInfo(Shop shop) {
+        accountMapper.updateAccount(shop.getAccount());
+        addressMapper.updateAddress(shop.getAddress());
+        shopMapper.updateShop(shop);
+    }
+
+    @Override
+    public void terminateByShop(Shop shop) {
+        shopMapper.deleteByShopID(shop.getShopID());
+        addressMapper.deleteByAccountID(shop.getMerchantID());
+        accountMapper.deleteByAccountID(shop.getMerchantID());
+    }
+
+    @Override
+    public List<Shop> findRandomShopWithAmount(Integer amount) {
+        return shopMapper.findRandomShopWithAmount(amount);
     }
 }
