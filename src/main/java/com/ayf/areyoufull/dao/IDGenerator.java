@@ -15,23 +15,23 @@ public class IDGenerator {
     private static ShopMapper shopMapper;
 
     @Autowired
-    public void setOrderDao(OrderMapper orderDao){
-        IDGenerator.orderMapper = orderDao;
+    public void setOrderMapper(OrderMapper orderMapper){
+        IDGenerator.orderMapper = orderMapper;
     }
 
     @Autowired
-    public void setAccountDao(AccountMapper accountDao) {
-        IDGenerator.accountMapper = accountDao;
+    public void setAccountMapper(AccountMapper accountMapper) {
+        IDGenerator.accountMapper = accountMapper;
     }
 
     @Autowired
-    public void setMerchandiseDao(MerchandiseMapper merchandiseDao) {
-        IDGenerator.merchandiseMapper = merchandiseDao;
+    public void setMerchandiseMapper(MerchandiseMapper merchandiseMapper) {
+        IDGenerator.merchandiseMapper = merchandiseMapper;
     }
 
     @Autowired
-    public void setShopDao(ShopMapper shopDao) {
-        IDGenerator.shopMapper = shopDao;
+    public void setShopMapper(ShopMapper shopMapper) {
+        IDGenerator.shopMapper = shopMapper;
     }
 
     public static Integer getNextOrderID(){

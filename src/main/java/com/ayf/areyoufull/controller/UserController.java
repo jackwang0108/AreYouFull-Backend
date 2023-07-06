@@ -27,27 +27,32 @@ public class UserController {
         return Result.ok();
     }
 
-    @PostMapping("/ordering")
-    public Result newOrder(Order order){
+    @PostMapping("/orders/ordering")
+    public Result ordering(Order order){
         return Result.ok();
     }
 
-    @PostMapping("/paying")
-    public Result pay(){
+    @PostMapping("/orders/paying")
+    public Result paying(){
         return Result.ok();
     }
 
-    @GetMapping("/orders/unfinished")
-    public Result unfinishedOrders(){
+    @PostMapping("/orders/cancelling")
+    public Result cancelling(){
         return Result.ok();
     }
 
-    @GetMapping("/orders/finished")
+    @GetMapping("/orders/waiting")
+    public Result waiting(){
+        return Result.ok();
+    }
+
+    @GetMapping("/orders/history/finished")
     public Result finishedOrders(){
         return Result.ok();
     }
 
-    @GetMapping("/orders/cancelled")
+    @GetMapping("/orders/history/cancelled")
     public Result cancelledOrders(){
         return Result.ok();
     }

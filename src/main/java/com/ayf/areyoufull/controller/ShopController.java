@@ -1,9 +1,9 @@
 package com.ayf.areyoufull.controller;
 
-import com.ayf.areyoufull.entity.Deliverer;
+import com.ayf.areyoufull.dao.IDGenerator;
 import com.ayf.areyoufull.entity.Merchandise;
 import com.ayf.areyoufull.entity.Result;
-import com.ayf.areyoufull.dao.IDGenerator;
+import com.ayf.areyoufull.entity.Shop;
 import com.ayf.areyoufull.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,44 @@ public class ShopController {
         this.shopService = shopService;
     }
 
-    @PostMapping("/new-merchandise")
+    @GetMapping("/orders/unfinished")
+    public Result unfinishedOrders(){
+        return Result.ok();
+    }
+
+    @PostMapping("/orders/accepting")
+    public Result accepting(){
+        return Result.ok();
+    }
+
+    @PostMapping("/orders/cancelling")
+    public Result cancelling(){
+        return Result.ok();
+    }
+
+    @PostMapping("/orders/finishing")
+    public Result finishing(){
+        return Result.ok();
+    }
+
+    @GetMapping("/orders/history/finished")
+    public Result finishedOrders(){
+        return Result.ok();
+    }
+
+    @GetMapping("orders/hostory/cancelled")
+    public Result cencelledOrders(){
+        return Result.ok();
+    }
+
+
+    @GetMapping("/home")
+    public Result homePage(@PathVariable Integer shopID){
+        return Result.ok();
+    }
+
+
+    @PostMapping("/publish")
     public Result publish(@PathVariable Integer shopID, @RequestBody List<Merchandise> merchandises){
         Integer id = IDGenerator.getMerchandiseNextID();
         for (Merchandise merchandise : merchandises) {
@@ -33,59 +70,24 @@ public class ShopController {
         return Result.ok("上架商品成功");
     }
 
-    @GetMapping("/merchandises")
-    public Result show(@PathVariable Integer shopID){
+    @GetMapping("/preview")
+    public Result preview(@PathVariable Integer shopID){
         List<Merchandise> merchandises = shopService.getMerchandiseOfShop(shopID);
         return Result.ok("获取成功", merchandises);
     }
 
-    @GetMapping("/orders/available")
-    public Result availableOrders(){
-        return Result.ok();
-    }
-
-    @GetMapping("/orders/unfinished")
-    public Result unfinishedOrders(){
-        return Result.ok();
-    }
-
-    @GetMapping("/orders/finished")
-    public Result finishedOrders(){
-        return Result.ok();
-    }
-
-    @PostMapping("/orders/accepting")
-    public Result accpetOrders(){
-        return Result.ok();
-    }
-
-    @PostMapping("/orders/cancelling")
-    public Result cancelOrders(){
-        return Result.ok();
-    }
-
-    @PostMapping("/orders/finishing")
-    public Result finishOrders(){
-        return Result.ok();
-    }
-
-    @GetMapping("/home")
-    public Result homePage(@PathVariable Integer userID){
-        return Result.ok();
-    }
-
     @GetMapping("/info")
-    public Result getInfo(@PathVariable Integer delivererID){
+    public Result getInfo(@PathVariable Integer shopID){
         return Result.ok();
     }
 
     @PostMapping("/modify")
-    public Result modifyInfo(Deliverer deliverer){
+    public Result modifyInfo(Shop shop){
         return Result.ok();
     }
 
     @DeleteMapping("/terminate")
-    public Result terminateAccount(Deliverer deliverer){
+    public Result terminateAccount(Shop shop){
         return Result.ok();
     }
 }

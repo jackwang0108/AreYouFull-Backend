@@ -2,7 +2,9 @@ package com.ayf.areyoufull.controller;
 
 import com.ayf.areyoufull.dao.IDGenerator;
 import com.ayf.areyoufull.entity.*;
-import com.ayf.areyoufull.service.*;
+import com.ayf.areyoufull.service.DelivererService;
+import com.ayf.areyoufull.service.ShopService;
+import com.ayf.areyoufull.service.UserService;
 import com.ayf.areyoufull.utils.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
