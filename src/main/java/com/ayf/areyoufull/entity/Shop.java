@@ -1,21 +1,21 @@
 package com.ayf.areyoufull.entity;
 
-import java.util.HashMap;
-
 public class Shop {
     private Integer shopID;
     private Integer merchantID;
     private Account account;
+    private Address address;
     private String shopName;
     private String shopImg;
     private String shopIntro;
 
     public Shop() {}
 
-    public Shop(Integer shopID, Integer merchantID, Account account, HashMap<Integer, Merchandise> merchandises, String shopName, String shopImg, String shopIntro) {
+    public Shop(Integer shopID, Integer merchantID, Account account, Address address, String shopName, String shopImg, String shopIntro) {
         this.shopID = shopID;
         this.merchantID = merchantID;
         this.account = account;
+        this.address = address;
         this.shopName = shopName;
         this.shopImg = shopImg;
         this.shopIntro = shopIntro;
@@ -43,6 +43,14 @@ public class Shop {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getShopName() {

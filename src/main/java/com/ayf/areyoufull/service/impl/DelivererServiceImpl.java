@@ -17,12 +17,11 @@ public class DelivererServiceImpl implements DelivererService {
 
     @Override
     public Deliverer getDelivererByID(Integer id) {
-
-        return null;
+        return delivererDao.findDelivererByID(id);
     }
 
     @Override
     public void newDeliverer(Deliverer deliverer) {
-
+        delivererDao.newDeliverer(deliverer);
     }
 }

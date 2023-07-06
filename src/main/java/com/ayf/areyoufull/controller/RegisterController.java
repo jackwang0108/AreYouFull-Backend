@@ -1,5 +1,6 @@
 package com.ayf.areyoufull.controller;
 
+import com.ayf.areyoufull.dao.IDGenerator;
 import com.ayf.areyoufull.entity.*;
 import com.ayf.areyoufull.service.*;
 import com.ayf.areyoufull.utils.DigestUtil;
@@ -23,7 +24,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public Result register(@RequestBody RegisterAccount registerAccount){
-        Integer nextID = IDService.getNextAccountID();
+        Integer nextID = IDGenerator.getNextAccountID();
         Account account = new Account();
         account.setAccountID(nextID);
         account.setPassword(DigestUtil.hmacSign(registerAccount.getPassword()));

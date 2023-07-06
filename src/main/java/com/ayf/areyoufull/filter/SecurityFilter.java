@@ -6,6 +6,7 @@ import com.ayf.areyoufull.utils.Constraint;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -14,8 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@Slf4j
+@Component
 @WebFilter("/*")
+@Slf4j
 public class SecurityFilter implements Filter {
     @Autowired
     private LoginController loginController;

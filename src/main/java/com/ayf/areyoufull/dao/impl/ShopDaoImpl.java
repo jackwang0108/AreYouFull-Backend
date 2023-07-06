@@ -4,23 +4,27 @@ import com.ayf.areyoufull.dao.ShopDao;
 import com.ayf.areyoufull.entity.Account;
 import com.ayf.areyoufull.entity.Merchandise;
 import com.ayf.areyoufull.entity.Shop;
-import com.ayf.areyoufull.mapper.AccountMapper;
-import com.ayf.areyoufull.mapper.MerchandiseMapper;
-import com.ayf.areyoufull.mapper.ShopMapper;
+import com.ayf.areyoufull.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class ShopDaoImpl implements ShopDao {
     private final ShopMapper shopMapper;
     private final AccountMapper accountMapper;
     private final MerchandiseMapper merchandiseMapper;
+    private final AddressMapper addressMapper;
+    private final OrderMapper orderMapper;
 
     @Autowired
-    public ShopDaoImpl(ShopMapper shopMapper, AccountMapper accountMapper, MerchandiseMapper merchandiseMapper) {
+    public ShopDaoImpl(ShopMapper shopMapper, AccountMapper accountMapper, MerchandiseMapper merchandiseMapper, AddressMapper addressMapper, OrderMapper orderMapper) {
         this.shopMapper = shopMapper;
         this.accountMapper = accountMapper;
         this.merchandiseMapper = merchandiseMapper;
+        this.addressMapper = addressMapper;
+        this.orderMapper = orderMapper;
     }
 
     @Override
@@ -44,6 +48,11 @@ public class ShopDaoImpl implements ShopDao {
 
     @Override
     public void removeMerchandiseByID(Integer id) {
+    }
+
+    @Override
+    public List<Merchandise> merchandisesOfShop(Integer shopID) {
+        return merchandiseMapper.findByShopID(shopID);
     }
 
     @Override

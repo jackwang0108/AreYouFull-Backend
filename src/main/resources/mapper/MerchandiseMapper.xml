@@ -13,6 +13,9 @@
                #{merchandise.merchandiseImgPath},
                #{merchandise.merchandiseStatus})
     </insert>
+    <select id="findByShopID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Merchandise">
+        select * from merchandise where shopID = #{shopID}
+    </select>
     <select id="getNextID" resultType="Integer">
         select max(merchandiseID) + 1 from merchandise
     </select>

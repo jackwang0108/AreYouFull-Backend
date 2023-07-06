@@ -21,11 +21,6 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
-    public void newAccount(Account account) {
-        accountMapper.newAccount(account);
-    }
-
-    @Override
     public Integer getNextID() {
         return accountMapper.getNextID();
     }

@@ -1,13 +1,13 @@
 package com.ayf.areyoufull.entity;
 
 
-import com.ayf.areyoufull.service.IDService;
+import com.ayf.areyoufull.dao.IDGenerator;
 
 import java.util.Date;
 
 public class Order {
     public static Order createOrder(Integer userID, Integer shopID, OrderDetail orderDetail){
-        return new Order(IDService.getNextOrderID(), userID, shopID, null, orderDetail, (byte)0, new Date(), null, null, null, null, null);
+        return new Order(IDGenerator.getNextOrderID(), userID, shopID, null, orderDetail, (byte)0, new Date(), null, null, null, null, null);
     }
 
     private Integer orderID;

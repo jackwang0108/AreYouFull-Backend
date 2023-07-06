@@ -37,4 +37,9 @@ public class ShopServiceImpl implements ShopService {
     public void remove(List<Integer> ids) {
         ids.forEach(shopDao::removeMerchandiseByID);
     }
+
+    @Override
+    public List<Merchandise> getMerchandiseOfShop(Integer shopID) {
+        return shopDao.merchandisesOfShop(shopID);
+    }
 }
