@@ -12,10 +12,7 @@ public class User {
 
     public User() {}
 
-    @JsonCreator
-    public User(@JsonProperty("userID") Integer userID,
-                @JsonProperty("account") Account account,
-                @JsonProperty("addresses") List<Address> addresses) {
+    public User(Integer userID, Account account, List<Address> addresses) {
         this.userID = userID;
         this.account = account;
         this.addresses = addresses;

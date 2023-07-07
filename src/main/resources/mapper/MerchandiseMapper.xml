@@ -20,10 +20,18 @@
     </delete>
     <update id="updateMerchandise" parameterType="com.ayf.areyoufull.entity.Merchandise">
         update merchandise
-        set merchandiseName = #{merchandise.merchandiseName},
-            merchandisePrice = #{merchandise.merchandisePrice},
-            merchandiseImgPath = #{merchandise.merchandiseImgPath},
-            merchandiseStatus = #{merchandise.merchandiseStatus}
+        set <if test="merchandise.merchandiseName != null">
+                merchandiseName = #{merchandise.merchandiseName},
+            </if>
+            <if test="merchandise.merchandisePrice != null">
+                merchandisePrice = #{merchandise.merchandisePrice},
+            </if>
+            <if test="merchandise.merchandiseImgPath != null">
+                merchandiseImgPath = #{merchandise.merchandiseImgPath},
+            </if>
+            <if test="merchandise.merchandiseStatus != null">
+                merchandiseStatus = #{merchandise.merchandiseStatus}
+            </if>
         where merchandiseID = #{merchandise.merchandiseID}
     </update>
     <select id="findByMerchandiseID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Merchandise">

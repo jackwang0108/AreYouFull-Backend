@@ -14,6 +14,6 @@ public interface UserService {
     void terminateByUser(User user);
     List<Shop> browseShops(Integer amount);
     List<Merchandise> browseMerchandises(Integer shopID);
-    Integer createOrder(Order order);
+    void createOrder(Order order);
 }
 

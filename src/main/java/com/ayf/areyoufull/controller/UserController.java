@@ -35,8 +35,11 @@ public class UserController {
 
     @PostMapping("/orders/ordering")
     public Result ordering(@RequestBody Order order){
-        Integer orderID = userService.createOrder(order);
-        return Result.ok("创建成功", orderID);
+        Integer nextOrderID = IDGenerator.getNextOrderID();
+        order.setOrderID(nextOrderID);
+        order.getOrderDetail().forEach(orderDetail -> orderDetail.setOrderID(nextOrderID));
+        userService.createOrder(order);
+        return Result.ok("创建成功", nextOrderID);
     }
 
     @PostMapping("/orders/paying")

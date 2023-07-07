@@ -18,8 +18,12 @@
     </delete>
     <update id="updateByAddress" parameterType="com.ayf.areyoufull.entity.Address">
         update address
-        set address = #{address.address},
-            phone = #{address.phone}
+        set <if test="address.address != null">
+                address = #{address.address},
+            </if>
+            <if test="address.phone != null">
+                phone = #{address.phone}
+            </if>
         where addressID = #{address.addressID}
     </update>
     <select id="findByAccountID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Address">

@@ -4,9 +4,10 @@ package com.ayf.areyoufull.entity;
 import com.ayf.areyoufull.dao.IDGenerator;
 
 import java.util.Date;
+import java.util.List;
 
 public class Order {
-    public static Order createOrder(Integer userID, Integer shopID, OrderDetail orderDetail){
+    public static Order createOrder(Integer userID, Integer shopID, List<OrderDetail> orderDetail){
         return new Order(IDGenerator.getNextOrderID(), userID, shopID, null, orderDetail, (byte)0, new Date(), null, null, null, null, null);
     }
 
@@ -14,18 +15,18 @@ public class Order {
     private Integer userID;
     private Integer shopID;
     private Integer delivererID;
-    private OrderDetail orderDetail;
+    private List<OrderDetail> orderDetail;
     private Byte status;
     private Date createTime;
     private Date payTime;
-    private Date merchantAssumeTime;
+    private Date merchantAssureTime;
     private Date merchantFinishTime;
     private Date delivererGetTime;
     private Date finishTime;
 
     public Order() {}
 
-    public Order(Integer orderID, Integer userID, Integer shopID, Integer delivererID, OrderDetail orderDetail, Byte status, Date createTime, Date payTime, Date merchantAssumeTime, Date merchantFinishTime, Date delivererGetTime, Date finishTime) {
+    public Order(Integer orderID, Integer userID, Integer shopID, Integer delivererID, List<OrderDetail> orderDetail, Byte status, Date createTime, Date payTime, Date merchantAssureTime, Date merchantFinishTime, Date delivererGetTime, Date finishTime) {
         this.orderID = orderID;
         this.userID = userID;
         this.shopID = shopID;
@@ -34,7 +35,7 @@ public class Order {
         this.status = status;
         this.createTime = createTime;
         this.payTime = payTime;
-        this.merchantAssumeTime = merchantAssumeTime;
+        this.merchantAssureTime = merchantAssureTime;
         this.merchantFinishTime = merchantFinishTime;
         this.delivererGetTime = delivererGetTime;
         this.finishTime = finishTime;
@@ -72,11 +73,11 @@ public class Order {
         this.delivererID = delivererID;
     }
 
-    public OrderDetail getOrderDetail() {
+    public List<OrderDetail> getOrderDetail() {
         return orderDetail;
     }
 
-    public void setOrderDetail(OrderDetail orderDetail) {
+    public void setOrderDetail(List<OrderDetail> orderDetail) {
         this.orderDetail = orderDetail;
     }
 
@@ -104,12 +105,12 @@ public class Order {
         this.payTime = payTime;
     }
 
-    public Date getMerchantAssumeTime() {
-        return merchantAssumeTime;
+    public Date getMerchantAssureTime() {
+        return merchantAssureTime;
     }
 
-    public void setMerchantAssumeTime(Date merchantAssumeTime) {
-        this.merchantAssumeTime = merchantAssumeTime;
+    public void setMerchantAssureTime(Date merchantAssureTime) {
+        this.merchantAssureTime = merchantAssureTime;
     }
 
     public Date getMerchantFinishTime() {
@@ -138,7 +139,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Orders{" +
+        return "Order{" +
                 "orderID=" + orderID +
                 ", userID=" + userID +
                 ", shopID=" + shopID +
@@ -147,7 +148,7 @@ public class Order {
                 ", status=" + status +
                 ", createTime=" + createTime +
                 ", payTime=" + payTime +
-                ", merchantAssumeTime=" + merchantAssumeTime +
+                ", merchantAssureTime=" + merchantAssureTime +
                 ", merchantFinishTime=" + merchantFinishTime +
                 ", delivererGetTime=" + delivererGetTime +
                 ", finishTime=" + finishTime +

@@ -13,7 +13,9 @@
     </delete>
     <update id="updateShop" parameterType="com.ayf.areyoufull.entity.Shop">
         update shop
-        set shopName = #{shop.shopName}
+        set <if test="shop.shopName != null">
+                shopName = #{shop.shopName}
+            </if>
         where shopID = #{shop.shopID} or merchantID = #{shop.merchantID}
     </update>
     <select id="findByShopID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Shop">

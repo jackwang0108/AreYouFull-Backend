@@ -16,11 +16,21 @@
     </delete>
     <update id="updateAccount" parameterType="com.ayf.areyoufull.entity.Account">
         update account
-        set password = #{account.password},
-            nickname = #{account.nickname},
-            accountPhone = #{account.accountPhone},
-            email = #{account.email},
-            avatar = #{account.avatar}
+        set <if test="account.password != null">
+                password = #{account.password},
+            </if>
+            <if test="account.nickname != null">
+                nickname = #{account.nickname},
+            </if>
+            <if test="account.accountPhone != null">
+                accountPhone = #{account.accountPhone},
+            </if>
+            <if test="account.email">
+                email = #{account.email},
+            </if>
+            <if test="account.avatar != null">
+                avatar = #{account.avatar}
+            </if>
         where accountID = #{account.accountID}
     </update>
     <select id="findByAccountID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Account">

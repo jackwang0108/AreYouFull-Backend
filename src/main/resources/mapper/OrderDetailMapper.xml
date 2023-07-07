@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ayf.areyoufull.mapper.OrderDetailMapper">
+    <insert id="newOrderDetail" parameterType="com.ayf.areyoufull.entity.OrderDetail">
+        insert into orderDetail(orderID, merchandiseID, orderNum)
+        values(#{orderDetail.orderID},
+               #{orderDetail.merchandiseID},
+               #{orderDetail.orderNum})
+    </insert>
+    <delete id="deleteByOrderDetail" parameterType="com.ayf.areyoufull.entity.OrderDetail">
+        delete from orderDetail
+        where (orderID, merchandiseID) = (#{orderDetail.orderID}, #{orderDetail.merchandiseID})
+    </delete>
+    <update id="updateOrderDetail" parameterType="com.ayf.areyoufull.entity.OrderDetail">
+        update orderDetail
+        set orderNum = #{orderDetail.orderNum}
+        where (orderID, merchandiseID) = (#{orderDetail.orderID}, #{orderDetail.merchandiseID})
+    </update>
+    <select id="findByOrderID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.OrderDetail">
+        select *
+        from orderDetail
+        where orderID = #{orderDetail.orderID}
+    </select>
+</mapper>

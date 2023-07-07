@@ -58,10 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer createOrder(Order order) {
-        Integer nextOrderID = IDGenerator.getNextOrderID();
-        order.setOrderID(nextOrderID);
+    public void createOrder(Order order) {
         orderDao.newOrder(order);
-        return nextOrderID;
     }
 }
