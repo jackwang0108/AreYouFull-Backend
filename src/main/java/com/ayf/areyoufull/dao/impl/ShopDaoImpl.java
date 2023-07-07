@@ -69,7 +69,7 @@ public class ShopDaoImpl implements ShopDao {
     }
 
     @Override
-    public void removeAllFromShop(Integer shopID) {
+    public void removeAllMerchandiseFromShop(Integer shopID) {
         merchandiseMapper.deleteByShopID(shopID);
     }
 

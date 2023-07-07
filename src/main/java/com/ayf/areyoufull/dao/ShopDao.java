@@ -9,7 +9,7 @@ public interface ShopDao {
     void newShop(Shop shop);
     void publishMerchandise(Merchandise merchandise);
     void removeMerchandiseByMerchandiseID(Integer merchandiseID);
-    void removeAllFromShop(Integer shopID);
+    void removeAllMerchandiseFromShop(Integer shopID);
     List<Merchandise> getMerchandisesByShopID(Integer shopID);
     List<Merchandise> getMerchandisesByMerchantID(Integer merchantID);
     Shop findShopByShopID(Integer shopID);

@@ -3,7 +3,6 @@ package com.ayf.areyoufull.dao;
 import com.ayf.areyoufull.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.events.Event;
 
 @Service
 public class IDGenerator {

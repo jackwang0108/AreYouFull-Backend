@@ -16,7 +16,7 @@
         delete from address
         where accountID = #{address.accountID}
     </delete>
-    <update id="updateAddress" parameterType="com.ayf.areyoufull.entity.Address">
+    <update id="updateByAddress" parameterType="com.ayf.areyoufull.entity.Address">
         update address
         set address = #{address.address},
             phone = #{address.phone}

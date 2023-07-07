@@ -75,7 +75,8 @@ public class UserController {
     public Result modifyInfo(@RequestBody User user){
         Integer nextID = IDGenerator.getAddressNextID();
         for (Address address : user.getAddresses()) {
-            address.setAddressID(nextID++);
+            if (address.getAddressID() == null)
+                address.setAddressID(nextID++);
         }
         user.getAccount().setPassword(DigestUtil.hmacSign(user.getAccount().getPassword()));
         userService.modifyUserInfo(user);
