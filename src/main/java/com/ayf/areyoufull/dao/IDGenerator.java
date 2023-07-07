@@ -44,7 +44,7 @@ public class IDGenerator {
 
     public static Integer getNextAccountID(){
         Integer nextID = accountMapper.getNextID();
-        return nextID == null || nextID < 10001 ? 1 : nextID;
+        return nextID == null || nextID < 10001 ? 10001 : nextID;
     }
 
     public static Integer getNextMerchandiseID(){
