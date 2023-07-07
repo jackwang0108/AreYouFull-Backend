@@ -6,7 +6,6 @@ import com.ayf.areyoufull.entity.Address;
 import com.ayf.areyoufull.entity.User;
 import com.ayf.areyoufull.mapper.AccountMapper;
 import com.ayf.areyoufull.mapper.AddressMapper;
-import com.ayf.areyoufull.mapper.OrderMapper;
 import com.ayf.areyoufull.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,14 +17,12 @@ public class UserDaoImpl implements UserDao {
     private final UserMapper userMapper;
     private final AccountMapper accountMapper;
     private final AddressMapper addressMapper;
-    private final OrderMapper orderMapper;
 
     @Autowired
-    public UserDaoImpl(UserMapper userMapper, AccountMapper accountMapper, AddressMapper addressMapper, OrderMapper orderMapper) {
+    public UserDaoImpl(UserMapper userMapper, AccountMapper accountMapper, AddressMapper addressMapper) {
         this.userMapper = userMapper;
         this.accountMapper = accountMapper;
         this.addressMapper = addressMapper;
-        this.orderMapper = orderMapper;
     }
 
     @Override

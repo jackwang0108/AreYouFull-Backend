@@ -31,5 +31,7 @@
         from shop
         limit #{amount}
     </select>
-
+    <select id="getNextID" resultType="Integer">
+        select max(shopID) + 1 from shop
+    </select>
 </mapper>

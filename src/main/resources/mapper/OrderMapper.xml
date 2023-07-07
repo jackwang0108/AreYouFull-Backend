@@ -33,23 +33,27 @@
     </delete>
     <update id="updateOrder" parameterType="com.ayf.areyoufull.entity.Order">
         update orders
-        <set>
-            <if test="delivererID != null">
+        set <if test="order.delivererID != null">
                 delivererID = #{order.delivererID},
             </if>
-            <if test="payTime != null">
+            <if test="order.status != null">
+                status = #{order.status},
+            </if>
+            <if test="order.payTime != null">
                 payTime = #{order.payTime},
             </if>
-            <if test="merchantAssumeTime != null">
-                merchantAssumeTime = #{order.merchantAssumeTime},
+            <if test="order.merchantAssureTime != null">
+                merchantAssureTime = #{order.merchantAssureTime},
             </if>
-            <if test="merchantFinishTime != null">
+            <if test="order.merchantFinishTime != null">
                 merchantFinishTime = #{order.merchantFinishTime},
             </if>
-            <if test="finishTime != null">
+            <if test="order.delivererGetTime != null">
+                delivererGetTime = #{order.delivererGetTime},
+            </if>
+            <if test="order.finishTime != null">
                 finishTime = #{order.finishTime}
             </if>
-        </set>
         where orderID = #{order.orderID}
     </update>
     <select id="findByOrderID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Order">

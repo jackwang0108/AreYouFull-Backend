@@ -53,7 +53,7 @@ public class ShopController {
 
     @PostMapping("/merchandise/publish")
     public Result publish(@PathVariable Integer merchantID, @RequestBody List<Merchandise> merchandises){
-        Integer id = IDGenerator.getMerchandiseNextID();
+        Integer id = IDGenerator.getNextMerchandiseID();
         Integer shopID = shopService.getShopByMerchantID(merchantID).getShopID();
         for (Merchandise merchandise : merchandises) {
             merchandise.setMerchandiseID(id++);
@@ -71,15 +71,15 @@ public class ShopController {
         return Result.ok("下架商品成功");
     }
 
-    @GetMapping("/home")
-    public Result homePage(@PathVariable Integer merchantID){
-        return preview(merchantID);
-    }
-
     @GetMapping("/preview")
     public Result preview(@PathVariable Integer merchantID){
         List<Merchandise> merchandises = shopService.getMerchandisesByMerchantID(merchantID);
         return Result.ok("获取成功", merchandises);
+    }
+
+    @GetMapping("/home")
+    public Result homePage(@PathVariable Integer merchantID){
+        return preview(merchantID);
     }
 
     @GetMapping("/info")
@@ -89,9 +89,9 @@ public class ShopController {
     }
 
     @PostMapping("/modify")
-    public Result modifyShopInfo(Shop shop){
-        shop.getAddress().setAddressID(IDGenerator.getAddressNextID());
+    public Result modifyShopInfo(@RequestBody Shop shop){
         shop.getAccount().setPassword(DigestUtil.hmacSign(shop.getAccount().getPassword()));
+        shop.getAddress().setAddressID(IDGenerator.getNextAddressID());
         shopService.modifyShopInfo(shop);
         return Result.ok("更新成功");
     }

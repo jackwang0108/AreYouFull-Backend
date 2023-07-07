@@ -7,7 +7,9 @@ import com.ayf.areyoufull.utils.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user/{userID}")
@@ -19,23 +21,28 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/browse/shop")
-    public Result shops(){
-        return Result.ok();
+    @PostMapping("/browse/shop")
+    public Result getShops(@RequestBody Map<String, Integer> body){
+        List<Shop> shops = userService.browseShops(body.get("amount"));
+        return Result.ok("获取成功", shops);
     }
 
-    @GetMapping("/browse/merchandise")
-    public Result merchandises(){
-        return Result.ok();
+    @PostMapping("/browse/merchandise")
+    public Result getMerchandises(@RequestBody Map<String, Integer> body){
+        List<Merchandise> merchandises = userService.browseMerchandises(body.get("shopID"));
+        return Result.ok("获取成功", merchandises);
     }
 
     @PostMapping("/orders/ordering")
-    public Result ordering(Order order){
-        return Result.ok();
+    public Result ordering(@RequestBody Order order){
+        Integer orderID = userService.createOrder(order);
+        return Result.ok("创建成功", orderID);
     }
 
     @PostMapping("/orders/paying")
-    public Result paying(){
+    public Result paying(@RequestBody Map<String, Date> body){
+        Date payTime = body.get("payTime");
+
         return Result.ok();
     }
 
@@ -73,7 +80,7 @@ public class UserController {
 
     @PostMapping("/modify")
     public Result modifyInfo(@RequestBody User user){
-        Integer nextID = IDGenerator.getAddressNextID();
+        Integer nextID = IDGenerator.getNextAddressID();
         for (Address address : user.getAddresses()) {
             if (address.getAddressID() == null)
                 address.setAddressID(nextID++);
@@ -84,7 +91,7 @@ public class UserController {
     }
 
     @DeleteMapping("/terminate")
-    public Result terminateUser(User user){
+    public Result terminateUser(@RequestBody User user){
         userService.terminateByUser(user);
         return Result.ok("注销成功");
     }

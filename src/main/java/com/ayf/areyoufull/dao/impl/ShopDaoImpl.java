@@ -5,7 +5,10 @@ import com.ayf.areyoufull.entity.Account;
 import com.ayf.areyoufull.entity.Address;
 import com.ayf.areyoufull.entity.Merchandise;
 import com.ayf.areyoufull.entity.Shop;
-import com.ayf.areyoufull.mapper.*;
+import com.ayf.areyoufull.mapper.AccountMapper;
+import com.ayf.areyoufull.mapper.AddressMapper;
+import com.ayf.areyoufull.mapper.MerchandiseMapper;
+import com.ayf.areyoufull.mapper.ShopMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,15 +20,13 @@ public class ShopDaoImpl implements ShopDao {
     private final AccountMapper accountMapper;
     private final MerchandiseMapper merchandiseMapper;
     private final AddressMapper addressMapper;
-    private final OrderMapper orderMapper;
 
     @Autowired
-    public ShopDaoImpl(ShopMapper shopMapper, AccountMapper accountMapper, MerchandiseMapper merchandiseMapper, AddressMapper addressMapper, OrderMapper orderMapper) {
+    public ShopDaoImpl(ShopMapper shopMapper, AccountMapper accountMapper, MerchandiseMapper merchandiseMapper, AddressMapper addressMapper) {
         this.shopMapper = shopMapper;
         this.accountMapper = accountMapper;
         this.merchandiseMapper = merchandiseMapper;
         this.addressMapper = addressMapper;
-        this.orderMapper = orderMapper;
     }
 
     @Override
@@ -91,6 +92,9 @@ public class ShopDaoImpl implements ShopDao {
     @Override
     public void modifyShopInfo(Shop shop) {
         accountMapper.updateAccount(shop.getAccount());
+        List<Address> addresses = addressMapper.findByAccountID(shop.getMerchantID());
+//        if (addresses.size() != 1 || !addresses.get(0).getAddressID().equals(shop.getAddress().getAddressID()))
+//            throw new BusinessException("更新失败");
         addressMapper.updateByAddress(shop.getAddress());
         shopMapper.updateShop(shop);
     }

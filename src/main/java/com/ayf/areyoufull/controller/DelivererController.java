@@ -3,6 +3,7 @@ package com.ayf.areyoufull.controller;
 import com.ayf.areyoufull.entity.Deliverer;
 import com.ayf.areyoufull.entity.Result;
 import com.ayf.areyoufull.service.DelivererService;
+import com.ayf.areyoufull.utils.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,9 +64,10 @@ public class DelivererController {
     }
 
     @PostMapping("/modify")
-    public Result modifyInfo(Deliverer deliverer){
+    public Result modifyInfo(@RequestBody Deliverer deliverer){
+        deliverer.getAccount().setPassword(DigestUtil.hmacSign(deliverer.getAccount().getPassword()));
         delivererService.modifyDelivererInfo(deliverer);
-        return Result.ok("");
+        return Result.ok("更新成功");
     }
 
     @DeleteMapping("/terminate")

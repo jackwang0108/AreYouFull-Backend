@@ -1,7 +1,11 @@
 package com.ayf.areyoufull.service.impl;
 
+import com.ayf.areyoufull.dao.IDGenerator;
+import com.ayf.areyoufull.dao.OrderDao;
 import com.ayf.areyoufull.dao.ShopDao;
 import com.ayf.areyoufull.dao.UserDao;
+import com.ayf.areyoufull.entity.Merchandise;
+import com.ayf.areyoufull.entity.Order;
 import com.ayf.areyoufull.entity.Shop;
 import com.ayf.areyoufull.entity.User;
 import com.ayf.areyoufull.service.UserService;
@@ -14,11 +18,13 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final ShopDao shopDao;
+    private final OrderDao orderDao;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, ShopDao shopDao) {
+    public UserServiceImpl(UserDao userDao, ShopDao shopDao, OrderDao orderDao) {
         this.userDao = userDao;
         this.shopDao = shopDao;
+        this.orderDao = orderDao;
     }
 
     @Override
@@ -44,5 +50,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Shop> browseShops(Integer amount) {
         return shopDao.findRandomShopWithAmount(amount);
+    }
+
+    @Override
+    public List<Merchandise> browseMerchandises(Integer shopID) {
+        return shopDao.getMerchandisesByShopID(shopID);
+    }
+
+    @Override
+    public Integer createOrder(Order order) {
+        Integer nextOrderID = IDGenerator.getNextOrderID();
+        order.setOrderID(nextOrderID);
+        orderDao.newOrder(order);
+        return nextOrderID;
     }
 }

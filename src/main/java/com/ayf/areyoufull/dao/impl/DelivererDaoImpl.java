@@ -5,7 +5,6 @@ import com.ayf.areyoufull.entity.Account;
 import com.ayf.areyoufull.entity.Deliverer;
 import com.ayf.areyoufull.mapper.AccountMapper;
 import com.ayf.areyoufull.mapper.DelivererMapper;
-import com.ayf.areyoufull.mapper.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,13 +12,11 @@ import org.springframework.stereotype.Repository;
 public class DelivererDaoImpl implements DelivererDao {
     private final DelivererMapper delivererMapper;
     private final AccountMapper accountMapper;
-    private final OrderMapper orderMapper;
 
     @Autowired
-    public DelivererDaoImpl(DelivererMapper delivererMapper, AccountMapper accountMapper, OrderMapper orderMapper) {
+    public DelivererDaoImpl(DelivererMapper delivererMapper, AccountMapper accountMapper) {
         this.delivererMapper = delivererMapper;
         this.accountMapper = accountMapper;
-        this.orderMapper = orderMapper;
     }
 
     @Override

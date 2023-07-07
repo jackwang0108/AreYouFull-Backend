@@ -47,17 +47,17 @@ public class IDGenerator {
         return nextID == null || nextID < 10001 ? 1 : nextID;
     }
 
-    public static Integer getMerchandiseNextID(){
+    public static Integer getNextMerchandiseID(){
         Integer nextID = merchandiseMapper.getNextID();
         return nextID == null ? 1 : nextID;
     }
 
-    public static Integer getShopNextID(){
+    public static Integer getNextShopID(){
         Integer nextID = shopMapper.getNextID();
         return nextID == null ? 1 : nextID;
     }
 
-    public static Integer getAddressNextID() {
+    public static Integer getNextAddressID() {
         Integer nextID = addressMapper.getNextID();
         return nextID == null ? 1 : nextID;
     }

@@ -9,9 +9,13 @@ import com.ayf.areyoufull.utils.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
+@RequestMapping("/register")
 public class RegisterController {
     private final UserService userService;
     private final DelivererService delivererService;
@@ -24,37 +28,53 @@ public class RegisterController {
         this.shopService = shopService;
     }
 
-    @PostMapping("/register")
-    public Result register(@RequestBody RegisterAccount registerAccount){
-        Integer nextID = IDGenerator.getNextAccountID();
-        Account account = new Account();
-        account.setAccountID(nextID);
-        account.setPassword(DigestUtil.hmacSign(registerAccount.getPassword()));
-        account.setNickname(registerAccount.getNickname());
-        account.setAccountPhone(registerAccount.getAccountPhone());
-        account.setEmail(registerAccount.getEmail());
+    @PostMapping("/user")
+    public Result register(@RequestBody User user){
+        Integer nextAccountID = IDGenerator.getNextAccountID();
+        user.setUserID(nextAccountID);
+        Account account = user.getAccount();
+        account.setAccountID(nextAccountID);
+        account.setPassword(DigestUtil.hmacSign(account.getPassword()));
         account.setAvatar(Account.defaultAvatar);
-        switch (registerAccount.getType()){
-            case 0 -> {
-                User user = new User();
-                user.setUserID(nextID);
-                user.setAccount(account);
-                userService.newUser(user);
-            }
-            case 1 -> {
-                Deliverer deliverer = new Deliverer();
-                deliverer.setDelivererID(nextID);
-                deliverer.setAccount(account);
-                delivererService.newDeliverer(deliverer);
-            }
-            case 2 -> {
-                Shop shop = new Shop();
-                shop.setMerchantID(nextID);
-                shop.setAccount(account);
-                shopService.newShop(shop);
-            }
-            default -> Result.err(Result.CODE_ERR_BUSINESS, "不支持的用户类型");
+        account.setEmail(Account.defaultEmail);
+        Integer nextAddressID = IDGenerator.getNextAddressID();
+        List<Address> addresses = user.getAddresses();
+        for (Address address : addresses) {
+            address.setAddressID(nextAddressID++);
+            address.setAccountID(nextAccountID);
         }
-        return Result.ok("注册成功", nextID);
+        userService.newUser(user);
+        return Result.ok("注册成功", nextAccountID);
+    }
+
+    @PostMapping("/deliverer")
+    public Result register(@RequestBody Deliverer deliverer){
+        Integer nextAccountID = IDGenerator.getNextAccountID();
+        deliverer.setDelivererID(nextAccountID);
+        Account account = deliverer.getAccount();
+        account.setAccountID(nextAccountID);
+        account.setPassword(DigestUtil.hmacSign(account.getPassword()));
+        account.setAvatar(Account.defaultAvatar);
+        account.setEmail(Account.defaultEmail);
+        delivererService.newDeliverer(deliverer);
+        return Result.ok("注册成功", nextAccountID);
+    }
+
+    @PostMapping("/shop")
+    public Result register(@RequestBody Shop shop){
+        Integer nextAccountID = IDGenerator.getNextAccountID();
+        shop.setShopID(IDGenerator.getNextShopID());
+        shop.setMerchantID(nextAccountID);
+        Account account = shop.getAccount();
+        account.setAccountID(nextAccountID);
+        account.setPassword(DigestUtil.hmacSign(account.getPassword()));
+        account.setAvatar(Account.defaultAvatar);
+        account.setEmail(Account.defaultEmail);
+        Integer nextAddressID = IDGenerator.getNextAddressID();
+        Address address = shop.getAddress();
+        address.setAddressID(nextAddressID);
+        address.setAccountID(nextAccountID);
+        shopService.newShop(shop);
+        return Result.ok("注册成功", nextAccountID);
     }
 }
