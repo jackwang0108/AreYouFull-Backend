@@ -43,8 +43,8 @@ public class UserController {
     }
 
     @PostMapping("/orders/paying")
-    public Result paying(@RequestBody Map<String, Date> body){
-        Date payTime = body.get("payTime");
+    public Result paying(@RequestBody Order order){
+
 
         return Result.ok();
     }

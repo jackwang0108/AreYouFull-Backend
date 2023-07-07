@@ -24,4 +24,11 @@ public class OrderDaoImpl implements OrderDao {
         orderMapper.newOrder(order);
         order.getOrderDetail().forEach(orderDetailMapper::newOrderDetail);
     }
+
+    @Override
+    public void updateOrder(Order order) {
+        if (order.getOrderDetail() != null)
+            order.getOrderDetail().forEach(orderDetailMapper::updateOrderDetail);
+        orderMapper.updateOrder(order);
+    }
 }

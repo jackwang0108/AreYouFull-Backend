@@ -4,4 +4,5 @@ import com.ayf.areyoufull.entity.Order;
 
 public interface OrderDao {
     void newOrder(Order order);
+    void updateOrder(Order order);
 }

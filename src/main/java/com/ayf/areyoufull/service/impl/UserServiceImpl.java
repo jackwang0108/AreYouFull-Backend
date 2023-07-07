@@ -61,4 +61,9 @@ public class UserServiceImpl implements UserService {
     public void createOrder(Order order) {
         orderDao.newOrder(order);
     }
+
+    @Override
+    public void updateOrder(Order order) {
+
+    }
 }

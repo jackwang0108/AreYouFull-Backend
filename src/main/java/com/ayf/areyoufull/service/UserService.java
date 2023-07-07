@@ -15,5 +15,6 @@ public interface UserService {
     List<Shop> browseShops(Integer amount);
     List<Merchandise> browseMerchandises(Integer shopID);
     void createOrder(Order order);
+    void updateOrder(Order order);
 }
 
