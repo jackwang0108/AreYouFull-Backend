@@ -5,6 +5,7 @@ import com.ayf.areyoufull.entity.Merchandise;
 import com.ayf.areyoufull.entity.Result;
 import com.ayf.areyoufull.entity.Shop;
 import com.ayf.areyoufull.service.ShopService;
+import com.ayf.areyoufull.utils.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,6 +90,8 @@ public class ShopController {
 
     @PostMapping("/modify")
     public Result modifyShopInfo(Shop shop){
+        shop.getAddress().setAddressID(IDGenerator.getAddressNextID());
+        shop.getAccount().setPassword(DigestUtil.hmacSign(shop.getAccount().getPassword()));
         shopService.modifyShopInfo(shop);
         return Result.ok("更新成功");
     }

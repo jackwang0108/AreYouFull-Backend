@@ -91,7 +91,7 @@ public class ShopDaoImpl implements ShopDao {
     @Override
     public void modifyShopInfo(Shop shop) {
         accountMapper.updateAccount(shop.getAccount());
-        addressMapper.updateAddress(shop.getAddress());
+        addressMapper.updateByAddress(shop.getAddress());
         shopMapper.updateShop(shop);
     }
 

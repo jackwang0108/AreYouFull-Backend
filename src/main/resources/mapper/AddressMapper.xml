@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ayf.areyoufull.mapper.AddressMapper">
     <insert id="newAddress" parameterType="com.ayf.areyoufull.entity.Address">
-        insert into address(accountID, address, phone)
-        values(#{address.accountID},
+        insert into address(addressID, accountID, address, phone)
+        values(#{address.addressID},
+               #{address.accountID},
                #{address.address},
                #{address.phone})
     </insert>
@@ -16,11 +17,17 @@
         where accountID = #{address.accountID}
     </delete>
     <update id="updateAddress" parameterType="com.ayf.areyoufull.entity.Address">
-        /*待定*/
+        update address
+        set address = #{address.address},
+            phone = #{address.phone}
+        where addressID = #{address.addressID}
     </update>
     <select id="findByAccountID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.Address">
         select *
         from address
         where accountID = #{accountID}
+    </select>
+    <select id="getNextID" resultType="Integer">
+        select max(addressID) + 1 from address
     </select>
 </mapper>

@@ -11,6 +11,7 @@ public interface AddressMapper {
     Integer newAddress(@Param("address") Address address);
     Integer deleteByAddress(@Param("address") Address address);
     Integer deleteByAccountID(@Param("accountID") Integer accountID);
-    Integer updateAddress(@Param("address") Address address);
+    Integer updateByAddress(@Param("address") Address address);
     List<Address> findByAccountID(@Param("accountID") Integer accountID);
+    Integer getNextID();
 }

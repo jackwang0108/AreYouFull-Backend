@@ -1,11 +1,9 @@
 package com.ayf.areyoufull.dao;
 
-import com.ayf.areyoufull.mapper.AccountMapper;
-import com.ayf.areyoufull.mapper.MerchandiseMapper;
-import com.ayf.areyoufull.mapper.OrderMapper;
-import com.ayf.areyoufull.mapper.ShopMapper;
+import com.ayf.areyoufull.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.events.Event;
 
 @Service
 public class IDGenerator {
@@ -13,6 +11,7 @@ public class IDGenerator {
     private static AccountMapper accountMapper;
     private static MerchandiseMapper merchandiseMapper;
     private static ShopMapper shopMapper;
+    private static AddressMapper addressMapper;
 
     @Autowired
     public void setOrderMapper(OrderMapper orderMapper){
@@ -34,19 +33,33 @@ public class IDGenerator {
         IDGenerator.shopMapper = shopMapper;
     }
 
+    @Autowired
+    public void setAddressMapper(AddressMapper addressMapper){
+        IDGenerator.addressMapper = addressMapper;
+    }
+
     public static Integer getNextOrderID(){
-        return orderMapper.getNextID();
+        Integer nextID = orderMapper.getNextID();
+        return nextID == null ? 1 : nextID;
     }
 
     public static Integer getNextAccountID(){
-        return accountMapper.getNextID();
+        Integer nextID = accountMapper.getNextID();
+        return nextID == null || nextID < 10001 ? 1 : nextID;
     }
 
     public static Integer getMerchandiseNextID(){
-        return merchandiseMapper.getNextID();
+        Integer nextID = merchandiseMapper.getNextID();
+        return nextID == null ? 1 : nextID;
     }
 
     public static Integer getShopNextID(){
-        return shopMapper.getNextID();
+        Integer nextID = shopMapper.getNextID();
+        return nextID == null ? 1 : nextID;
+    }
+
+    public static Integer getAddressNextID() {
+        Integer nextID = addressMapper.getNextID();
+        return nextID == null ? 1 : nextID;
     }
 }

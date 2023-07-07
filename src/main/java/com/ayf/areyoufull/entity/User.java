@@ -1,6 +1,8 @@
 package com.ayf.areyoufull.entity;
 
-import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class User {
@@ -10,7 +12,10 @@ public class User {
 
     public User() {}
 
-    public User(Integer userID, Account account, List<Address> addresses) {
+    @JsonCreator
+    public User(@JsonProperty("userID") Integer userID,
+                @JsonProperty("account") Account account,
+                @JsonProperty("addresses") List<Address> addresses) {
         this.userID = userID;
         this.account = account;
         this.addresses = addresses;

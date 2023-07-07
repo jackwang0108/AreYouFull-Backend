@@ -1,10 +1,9 @@
 package com.ayf.areyoufull.controller;
 
-import com.ayf.areyoufull.entity.Order;
-import com.ayf.areyoufull.entity.Result;
-import com.ayf.areyoufull.entity.Shop;
-import com.ayf.areyoufull.entity.User;
+import com.ayf.areyoufull.dao.IDGenerator;
+import com.ayf.areyoufull.entity.*;
 import com.ayf.areyoufull.service.UserService;
+import com.ayf.areyoufull.utils.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,7 +72,12 @@ public class UserController {
     }
 
     @PostMapping("/modify")
-    public Result modifyInfo(User user){
+    public Result modifyInfo(@RequestBody User user){
+        Integer nextID = IDGenerator.getAddressNextID();
+        for (Address address : user.getAddresses()) {
+            address.setAddressID(nextID++);
+        }
+        user.getAccount().setPassword(DigestUtil.hmacSign(user.getAccount().getPassword()));
         userService.modifyUserInfo(user);
         return Result.ok("更新成功");
     }

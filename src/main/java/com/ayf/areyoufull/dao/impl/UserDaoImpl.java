@@ -47,7 +47,17 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void modifyUserInfo(User user) {
         accountMapper.updateAccount(user.getAccount());
-        user.getAddresses().forEach(addressMapper::updateAddress);
+        List<Address> addresses = addressMapper.findByAccountID(user.getUserID());
+        if (addresses.isEmpty())
+            user.getAddresses().forEach(addressMapper::newAddress);
+        else
+            user.getAddresses().forEach(address -> addresses.forEach(addr -> {
+                if (!address.getAddress().equals(addr.getAddress())
+                || !address.getPhone().equals(addr.getPhone()))
+                    addressMapper.newAddress(address);
+                else
+                    addressMapper.updateByAddress(address);
+            }));
         userMapper.updateUser(user);
     }
 

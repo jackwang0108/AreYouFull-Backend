@@ -1,16 +1,26 @@
 package com.ayf.areyoufull.entity;
 
 public class Address {
+    private Integer addressID;
     private Integer accountID;
     private String address;
     private String phone;
 
     public Address() {}
 
-    public Address(Integer accountID, String address, String phone) {
+    public Address(Integer addressID, Integer accountID, String address, String phone) {
+        this.addressID = addressID;
         this.accountID = accountID;
         this.address = address;
         this.phone = phone;
+    }
+
+    public Integer getAddressID() {
+        return addressID;
+    }
+
+    public void setAddressID(Integer addressID) {
+        this.addressID = addressID;
     }
 
     public Integer getAccountID() {
@@ -39,8 +49,9 @@ public class Address {
 
     @Override
     public String toString() {
-        return "AddressInfo{" +
-                "accountID=" + accountID +
+        return "Address{" +
+                "addressID=" + addressID +
+                ", accountID=" + accountID +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
