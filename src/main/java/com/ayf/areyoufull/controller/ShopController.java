@@ -22,6 +22,11 @@ public class ShopController {
         this.shopService = shopService;
     }
 
+    @PostMapping("/position")
+    public Result realTimePosition(@RequestBody Integer integer){
+        return Result.ok();
+    }
+
     @GetMapping("/orders/available")
     public Result availableOrders(){
         Order order = new Order();

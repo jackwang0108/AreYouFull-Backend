@@ -19,12 +19,17 @@ import java.util.Map;
 @RequestMapping("/user/{userID}")
 public class UserController {
     private final UserService userService;
-    //private final AlipayUtil alipayUtil;
+    private final AlipayUtil alipayUtil;
 
     @Autowired
     public UserController(UserService userService, AlipayUtil alipayUtil) {
         this.userService = userService;
-        //this.alipayUtil = alipayUtil;
+        this.alipayUtil = alipayUtil;
+    }
+
+    @PostMapping("/position")
+    public Result realTimePosition(@RequestBody Integer integer){
+        return Result.ok();
     }
 
     @PostMapping("/browse/shop")
@@ -51,19 +56,19 @@ public class UserController {
 
     @PostMapping("/orders/paying")
     public Result paying(@RequestBody Order order){
-//        AlipayClient alipayClient = alipayUtil.getAlipayClient();
-//        AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-//        alipayRequest.setReturnUrl("http://localhost:8848/returnUrl");
-//        alipayRequest.setBizContent("{" +
-//                "orderID: " + order.getOrderID() +
-//                "}"
-//        );
-//        String body = null;
-//        try {
-//            body = alipayClient.pageExecute(alipayRequest).getBody();
-//        } catch (AlipayApiException e) {
-//            e.printStackTrace();
-//        }
+        AlipayClient alipayClient = alipayUtil.getAlipayClient();
+        AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
+        alipayRequest.setReturnUrl("http://localhost:8848/returnUrl");
+        alipayRequest.setBizContent("{" +
+                "orderID: " + order.getOrderID() +
+                "}"
+        );
+        String body = null;
+        try {
+            body = alipayClient.pageExecute(alipayRequest).getBody();
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
         order.setStatus(Order.ORDER_PAYED);
         userService.updateOrder(order);
         return Result.ok("支付成功");
@@ -71,18 +76,18 @@ public class UserController {
 
     @PostMapping("/orders/cancelling")
     public Result cancelling(@RequestBody Order order){
-//        AlipayClient alipayClient = alipayUtil.getAlipayClient();
-//        AlipayTradeCancelRequest alipayRequest = new AlipayTradeCancelRequest();
-//        alipayRequest.setBizContent("{" +
-//                "orderID: " + order.getOrderID() +
-//                "}"
-//        );
-//        String body = null;
-//        try {
-//            body = alipayClient.execute(alipayRequest).getBody();
-//        } catch (AlipayApiException e) {
-//            e.printStackTrace();
-//        }
+        AlipayClient alipayClient = alipayUtil.getAlipayClient();
+        AlipayTradeCancelRequest alipayRequest = new AlipayTradeCancelRequest();
+        alipayRequest.setBizContent("{" +
+                "orderID: " + order.getOrderID() +
+                "}"
+        );
+        String body = null;
+        try {
+            body = alipayClient.execute(alipayRequest).getBody();
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
         order.setStatus(Order.ORDER_CANCELLED);
         userService.updateOrder(order);
         return Result.ok("取消成功");

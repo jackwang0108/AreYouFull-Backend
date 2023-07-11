@@ -20,6 +20,11 @@ public class DelivererController {
         this.delivererService = delivererService;
     }
 
+    @PostMapping("/position")
+    public Result realTimePosition(@RequestBody Integer integer){
+        return Result.ok();
+    }
+
     @GetMapping("/orders/available")
     public Result availableOrders(){
         Order order = new Order();

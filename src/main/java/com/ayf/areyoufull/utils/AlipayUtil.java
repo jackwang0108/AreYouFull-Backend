@@ -7,19 +7,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class AlipayUtil {
 
-//    @Value("${alipay.appId}")
-//    private String appId;
-//
-//    @Value("${alipay.privateKey}")
-//    private String privateKey;
-//
-//    @Value("${alipay.publicKey}")
-//    private String publicKey;
-//
-//    @Value("${alipay.gatewayUrl}")
-//    private String gatewayUrl;
-//
-//    public AlipayClient getAlipayClient() {
-//        return new DefaultAlipayClient(gatewayUrl, appId, privateKey, "json", "UTF-8", publicKey, "RSA2");
-//    }
+    @Value("${alipay.appId}")
+    private String appId;
+
+    @Value("${alipay.privateKey}")
+    private String privateKey;
+
+    @Value("${alipay.publicKey}")
+    private String publicKey;
+
+    @Value("${alipay.gatewayUrl}")
+    private String gatewayUrl;
+
+    public AlipayClient getAlipayClient() {
+        return new DefaultAlipayClient(gatewayUrl, appId, privateKey, "json", "UTF-8", publicKey, "RSA2");
+    }
 }

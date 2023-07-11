@@ -72,6 +72,12 @@
 			<artifactId>alipay-sdk-java</artifactId>
 			<version>3.7.110.ALL</version>
 		</dependency>
+		<!-- IJPay -->
+<!--		<dependency>-->
+<!--			<groupId>com.github.javen205</groupId>-->
+<!--			<artifactId>IJPay-AliPay</artifactId>-->
+<!--			<version>latest-version</version>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>
