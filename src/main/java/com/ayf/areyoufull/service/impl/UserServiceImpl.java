@@ -1,6 +1,5 @@
 package com.ayf.areyoufull.service.impl;
 
-import com.ayf.areyoufull.dao.IDGenerator;
 import com.ayf.areyoufull.dao.OrderDao;
 import com.ayf.areyoufull.dao.ShopDao;
 import com.ayf.areyoufull.dao.UserDao;
@@ -64,6 +63,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateOrder(Order order) {
+        orderDao.updateOrder(order);
+    }
 
+    @Override
+    public List<Order> querySelfOrderByStatus(Order order) {
+        return orderDao.findUserOrderByStatus(order);
+    }
+
+    @Override
+    public Order queryOrderByOrderID(Order order) {
+        return orderDao.findOrderByOrderID(order);
     }
 }

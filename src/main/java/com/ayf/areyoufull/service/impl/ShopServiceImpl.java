@@ -1,7 +1,9 @@
 package com.ayf.areyoufull.service.impl;
 
+import com.ayf.areyoufull.dao.OrderDao;
 import com.ayf.areyoufull.dao.ShopDao;
 import com.ayf.areyoufull.entity.Merchandise;
+import com.ayf.areyoufull.entity.Order;
 import com.ayf.areyoufull.entity.Shop;
 import com.ayf.areyoufull.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import java.util.List;
 @Service
 public class ShopServiceImpl implements ShopService {
     private final ShopDao shopDao;
+    private final OrderDao orderDao;
 
     @Autowired
-    public ShopServiceImpl(ShopDao shopDao) {
+    public ShopServiceImpl(ShopDao shopDao, OrderDao orderDao) {
         this.shopDao = shopDao;
+        this.orderDao = orderDao;
     }
 
     @Override
@@ -61,5 +65,25 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public void terminateShop(Shop shop) {
         shopDao.terminateByShop(shop);
+    }
+
+    @Override
+    public Order queryOrderByOrderID(Order order) {
+        return orderDao.findOrderByOrderID(order);
+    }
+
+    @Override
+    public List<Order> queryOrderByStatus(Order order) {
+        return orderDao.findOrderByStatus(order);
+    }
+
+    @Override
+    public List<Order> querySelfOrderByStatus(Order order) {
+        return orderDao.findShopOrderByStatus(order);
+    }
+
+    @Override
+    public void updateOrder(Order order) {
+        orderDao.updateOrder(order);
     }
 }

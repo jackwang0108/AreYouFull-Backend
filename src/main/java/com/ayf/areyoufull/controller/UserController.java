@@ -1,13 +1,17 @@
 package com.ayf.areyoufull.controller;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.request.AlipayTradeCancelRequest;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.ayf.areyoufull.dao.IDGenerator;
 import com.ayf.areyoufull.entity.*;
 import com.ayf.areyoufull.service.UserService;
+import com.ayf.areyoufull.utils.AlipayUtil;
 import com.ayf.areyoufull.utils.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,10 +19,12 @@ import java.util.Map;
 @RequestMapping("/user/{userID}")
 public class UserController {
     private final UserService userService;
+    //private final AlipayUtil alipayUtil;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AlipayUtil alipayUtil) {
         this.userService = userService;
+        //this.alipayUtil = alipayUtil;
     }
 
     @PostMapping("/browse/shop")
@@ -37,6 +43,7 @@ public class UserController {
     public Result ordering(@RequestBody Order order){
         Integer nextOrderID = IDGenerator.getNextOrderID();
         order.setOrderID(nextOrderID);
+        order.setStatus(Order.ORDER_CREATED);
         order.getOrderDetail().forEach(orderDetail -> orderDetail.setOrderID(nextOrderID));
         userService.createOrder(order);
         return Result.ok("创建成功", nextOrderID);
@@ -44,29 +51,68 @@ public class UserController {
 
     @PostMapping("/orders/paying")
     public Result paying(@RequestBody Order order){
-
-
-        return Result.ok();
+//        AlipayClient alipayClient = alipayUtil.getAlipayClient();
+//        AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
+//        alipayRequest.setReturnUrl("http://localhost:8848/returnUrl");
+//        alipayRequest.setBizContent("{" +
+//                "orderID: " + order.getOrderID() +
+//                "}"
+//        );
+//        String body = null;
+//        try {
+//            body = alipayClient.pageExecute(alipayRequest).getBody();
+//        } catch (AlipayApiException e) {
+//            e.printStackTrace();
+//        }
+        order.setStatus(Order.ORDER_PAYED);
+        userService.updateOrder(order);
+        return Result.ok("支付成功");
     }
 
     @PostMapping("/orders/cancelling")
-    public Result cancelling(){
-        return Result.ok();
+    public Result cancelling(@RequestBody Order order){
+//        AlipayClient alipayClient = alipayUtil.getAlipayClient();
+//        AlipayTradeCancelRequest alipayRequest = new AlipayTradeCancelRequest();
+//        alipayRequest.setBizContent("{" +
+//                "orderID: " + order.getOrderID() +
+//                "}"
+//        );
+//        String body = null;
+//        try {
+//            body = alipayClient.execute(alipayRequest).getBody();
+//        } catch (AlipayApiException e) {
+//            e.printStackTrace();
+//        }
+        order.setStatus(Order.ORDER_CANCELLED);
+        userService.updateOrder(order);
+        return Result.ok("取消成功");
     }
 
     @GetMapping("/orders/waiting")
-    public Result waiting(){
-        return Result.ok();
+    public Result waiting(@PathVariable Integer userID){
+        Order order = new Order();
+        order.setUserID(userID);
+        order.setStatus((byte) 4);
+        List<Order> orders = userService.querySelfOrderByStatus(order);
+        return Result.ok("获取成功", orders);
     }
 
     @GetMapping("/orders/history/finished")
-    public Result finishedOrders(){
-        return Result.ok();
+    public Result finishedOrders(@PathVariable Integer userID){
+        Order order = new Order();
+        order.setUserID(userID);
+        order.setStatus((byte) 5);
+        List<Order> orders = userService.querySelfOrderByStatus(order);
+        return Result.ok("获取成功", orders);
     }
 
     @GetMapping("/orders/history/cancelled")
-    public Result cancelledOrders(){
-        return Result.ok();
+    public Result cancelledOrders(@PathVariable Integer userID){
+        Order order = new Order();
+        order.setUserID(userID);
+        order.setStatus((byte) 6);
+        List<Order> orders = userService.querySelfOrderByStatus(order);
+        return Result.ok("获取成功", orders);
     }
 
     @GetMapping("/home")

@@ -18,5 +18,6 @@ public interface OrderMapper {
     List<Order> findByUserID(@Param("userID") Integer userID);
     List<Order> findByDelivererID(@Param("delivererID") Integer delivererID);
     List<Order> findByShopID(@Param("shopID") Integer shopID);
+    List<Order> findByStatus(@Param("status") Byte status);
     Integer getNextID();
 }

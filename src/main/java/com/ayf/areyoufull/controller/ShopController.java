@@ -2,6 +2,7 @@ package com.ayf.areyoufull.controller;
 
 import com.ayf.areyoufull.dao.IDGenerator;
 import com.ayf.areyoufull.entity.Merchandise;
+import com.ayf.areyoufull.entity.Order;
 import com.ayf.areyoufull.entity.Result;
 import com.ayf.areyoufull.entity.Shop;
 import com.ayf.areyoufull.service.ShopService;
@@ -21,33 +22,58 @@ public class ShopController {
         this.shopService = shopService;
     }
 
+    @GetMapping("/orders/available")
+    public Result availableOrders(){
+        Order order = new Order();
+        order.setStatus(Order.ORDER_PAYED);
+        List<Order> orders = shopService.queryOrderByStatus(order);
+        return Result.ok("获取成功", orders);
+    }
+
     @GetMapping("/orders/unfinished")
     public Result unfinishedOrders(){
-        return Result.ok();
+        Order order = new Order();
+        order.setStatus(Order.ORDER_MERCHANT_ASSURED);
+        List<Order> orders = shopService.queryOrderByStatus(order);
+        return Result.ok("获取成功", orders);
     }
 
     @PostMapping("/orders/accepting")
-    public Result accepting(){
-        return Result.ok();
+    public Result accepting(@RequestBody Order order){
+        order.setStatus(Order.ORDER_MERCHANT_ASSURED);
+        shopService.updateOrder(order);
+        return Result.ok("接单成功");
     }
 
     @PostMapping("/orders/cancelling")
-    public Result cancelling(){
-        return Result.ok();
+    public Result cancelling(@RequestBody Order order){
+        order.setStatus(Order.ORDER_CANCELLED);
+        shopService.updateOrder(order);
+        return Result.ok("取消成功");
     }
 
     @PostMapping("/orders/finishing")
-    public Result finishing(){
-        return Result.ok();
+    public Result finishing(@RequestBody Order order){
+        order.setStatus(Order.ORDER_MERCHANT_FINISHED);
+        shopService.updateOrder(order);
+        return Result.ok("完成成功");
     }
 
     @GetMapping("/orders/history/finished")
-    public Result finishedOrders(){
+    public Result finishedOrders(@PathVariable Integer merchantID){
+        Order order = new Order();
+        order.setShopID(merchantID);
+        order.setStatus(Order.ORDER_FINISHED);
+        shopService.querySelfOrderByStatus(order);
         return Result.ok();
     }
 
-    @GetMapping("orders/hostory/cancelled")
-    public Result cencelledOrders(){
+    @GetMapping("orders/history/cancelled")
+    public Result cancelledOrders(@PathVariable Integer merchantID){
+        Order order = new Order();
+        order.setShopID(merchantID);
+        order.setStatus(Order.ORDER_CANCELLED);
+        shopService.querySelfOrderByStatus(order);
         return Result.ok();
     }
 

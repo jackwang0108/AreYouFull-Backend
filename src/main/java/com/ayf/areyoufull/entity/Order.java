@@ -10,6 +10,13 @@ public class Order {
     public static Order createOrder(Integer userID, Integer shopID, List<OrderDetail> orderDetail){
         return new Order(IDGenerator.getNextOrderID(), userID, shopID, null, orderDetail, (byte)0, new Date(), null, null, null, null, null);
     }
+    public static Byte ORDER_CREATED = 0;
+    public static Byte ORDER_PAYED = 1;
+    public static Byte ORDER_MERCHANT_ASSURED = 2;
+    public static Byte ORDER_MERCHANT_FINISHED = 3;
+    public static Byte ORDER_DELIVERER_GOT = 4;
+    public static Byte ORDER_FINISHED = 5;
+    public static Byte ORDER_CANCELLED = 6;
 
     private Integer orderID;
     private Integer userID;

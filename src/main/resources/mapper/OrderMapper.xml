@@ -76,6 +76,11 @@
         from orders
         where shopID = #{shopID}
     </select>
+    <select id="findByStatus" parameterType="Byte" resultType="com.ayf.areyoufull.entity.Order">
+        select *
+        from orders
+        where status = #{status}
+    </select>
     <select id="getNextID" resultType="Integer">
         select max(orderID) + 1 from orders
     </select>

@@ -16,5 +16,7 @@ public interface UserService {
     List<Merchandise> browseMerchandises(Integer shopID);
     void createOrder(Order order);
     void updateOrder(Order order);
+    List<Order> querySelfOrderByStatus(Order order);
+    Order queryOrderByOrderID(Order order);
 }
 

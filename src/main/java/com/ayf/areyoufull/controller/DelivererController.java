@@ -1,11 +1,14 @@
 package com.ayf.areyoufull.controller;
 
 import com.ayf.areyoufull.entity.Deliverer;
+import com.ayf.areyoufull.entity.Order;
 import com.ayf.areyoufull.entity.Result;
 import com.ayf.areyoufull.service.DelivererService;
 import com.ayf.areyoufull.utils.DigestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/deliverer/{delivererID}")
@@ -19,37 +22,57 @@ public class DelivererController {
 
     @GetMapping("/orders/available")
     public Result availableOrders(){
-        return Result.ok();
+        Order order = new Order();
+        order.setStatus(Order.ORDER_MERCHANT_FINISHED);
+        List<Order> orders = delivererService.queryOrderByStatus(order);
+        return Result.ok("获取成功", orders);
     }
 
     @GetMapping("/orders/unfinished")
     public Result unfinishedOrders(){
-        return Result.ok();
+        Order order = new Order();
+        order.setStatus(Order.ORDER_DELIVERER_GOT);
+        List<Order> orders = delivererService.querySelfOrderByStatus(order);
+        return Result.ok("获取成功", orders);
     }
 
     @PostMapping("/orders/accepting")
-    public Result accepting(){
-        return Result.ok();
+    public Result accepting(@RequestBody Order order){
+        order.setStatus(Order.ORDER_DELIVERER_GOT);
+        delivererService.updateOrder(order);
+        return Result.ok("接单成功");
     }
 
     @PostMapping("/orders/cancelling")
-    public Result cancelling(){
-        return Result.ok();
+    public Result cancelling(@RequestBody Order order){
+        order.setStatus(Order.ORDER_CANCELLED);
+        delivererService.updateOrder(order);
+        return Result.ok("取消成功");
     }
 
     @PostMapping("/orders/finishing")
-    public Result finishing(){
-        return Result.ok();
+    public Result finishing(@RequestBody Order order){
+        order.setStatus(Order.ORDER_FINISHED);
+        delivererService.updateOrder(order);
+        return Result.ok("结束成功");
     }
 
     @GetMapping("/orders/history/finished")
-    public Result finishedOrders(){
-        return Result.ok();
+    public Result finishedOrders(@PathVariable Integer delivererID){
+        Order order = new Order();
+        order.setDelivererID(delivererID);
+        order.setStatus(Order.ORDER_FINISHED);
+        List<Order> orders = delivererService.querySelfOrderByStatus(order);
+        return Result.ok("获取成功", orders);
     }
 
     @GetMapping("/orders/history/cancelled")
-    public Result cancelledOrders(){
-        return Result.ok();
+    public Result cancelledOrders(@PathVariable Integer delivererID){
+        Order order = new Order();
+        order.setDelivererID(delivererID);
+        order.setStatus(Order.ORDER_CANCELLED);
+        List<Order> orders = delivererService.querySelfOrderByStatus(order);
+        return Result.ok("获取成功", orders);
     }
 
     @GetMapping("/home")
