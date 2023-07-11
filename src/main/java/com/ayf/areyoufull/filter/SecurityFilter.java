@@ -2,7 +2,7 @@ package com.ayf.areyoufull.filter;
 
 import com.ayf.areyoufull.controller.LoginController;
 import com.ayf.areyoufull.entity.Result;
-import com.ayf.areyoufull.utils.Constraint;
+import com.ayf.areyoufull.utils.Constant;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +65,7 @@ public class SecurityFilter implements Filter {
         }
 
         // 检查Token
-        String clientToken = request.getHeader(Constraint.HEADER_TOKEN_NAME);
+        String clientToken = request.getHeader(Constant.HEADER_TOKEN_NAME);
         Result result = loginController.verifyToken(clientToken);
         if(result.isSuccess()){
             filterChain.doFilter(request, response);

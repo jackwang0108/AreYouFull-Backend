@@ -8,10 +8,20 @@ import com.ayf.areyoufull.dao.IDGenerator;
 import com.ayf.areyoufull.entity.*;
 import com.ayf.areyoufull.service.UserService;
 import com.ayf.areyoufull.utils.AlipayUtil;
+import com.ayf.areyoufull.utils.Constant;
 import com.ayf.areyoufull.utils.DigestUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +30,12 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
     private final AlipayUtil alipayUtil;
+    private static StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate){
+        UserController.stringRedisTemplate = stringRedisTemplate;
+    }
 
     @Autowired
     public UserController(UserService userService, AlipayUtil alipayUtil) {
@@ -27,9 +43,28 @@ public class UserController {
         this.alipayUtil = alipayUtil;
     }
 
-    @PostMapping("/position")
-    public Result realTimePosition(@RequestBody Integer integer){
-        return Result.ok();
+    @PostMapping("/position/update")
+    public Result updatePosition(@RequestBody Map<String, Integer> position, @PathVariable Integer userID){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String pos = objectMapper.writeValueAsString(position);
+            stringRedisTemplate.opsForValue().set(String.valueOf(userID), pos);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return Result.ok("更新成功");
+    }
+
+    @GetMapping("/position/draw")
+    public Result getPosition(@PathVariable Integer userID){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map pos = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(userID)), Map.class);
+            return Result.ok("获取成功", pos);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return Result.err(Result.CODE_ERR_BUSINESS, "业务错误");
     }
 
     @PostMapping("/browse/shop")
@@ -58,7 +93,7 @@ public class UserController {
     public Result paying(@RequestBody Order order){
         AlipayClient alipayClient = alipayUtil.getAlipayClient();
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-        alipayRequest.setReturnUrl("http://localhost:8848/returnUrl");
+        alipayRequest.setReturnUrl(AlipayController.RETURL);
         alipayRequest.setBizContent("{" +
                 "orderID: " + order.getOrderID() +
                 "}"
@@ -71,7 +106,8 @@ public class UserController {
         }
         order.setStatus(Order.ORDER_PAYED);
         userService.updateOrder(order);
-        return Result.ok("支付成功");
+        String pay = getPay();
+        return pay == null ? Result.err(Result.CODE_ERR_BUSINESS, "获取二维码失败") : Result.ok("获取成功", pay);
     }
 
     @PostMapping("/orders/cancelling")
@@ -90,14 +126,14 @@ public class UserController {
         }
         order.setStatus(Order.ORDER_CANCELLED);
         userService.updateOrder(order);
-        return Result.ok("取消成功");
+        return Result.ok("取消成功", body);
     }
 
     @GetMapping("/orders/waiting")
     public Result waiting(@PathVariable Integer userID){
         Order order = new Order();
         order.setUserID(userID);
-        order.setStatus((byte) 4);
+        order.setStatus(Order.ORDER_PAYED);
         List<Order> orders = userService.querySelfOrderByStatus(order);
         return Result.ok("获取成功", orders);
     }
@@ -106,7 +142,7 @@ public class UserController {
     public Result finishedOrders(@PathVariable Integer userID){
         Order order = new Order();
         order.setUserID(userID);
-        order.setStatus((byte) 5);
+        order.setStatus(Order.ORDER_FINISHED);
         List<Order> orders = userService.querySelfOrderByStatus(order);
         return Result.ok("获取成功", orders);
     }
@@ -115,7 +151,7 @@ public class UserController {
     public Result cancelledOrders(@PathVariable Integer userID){
         Order order = new Order();
         order.setUserID(userID);
-        order.setStatus((byte) 6);
+        order.setStatus(Order.ORDER_CANCELLED);
         List<Order> orders = userService.querySelfOrderByStatus(order);
         return Result.ok("获取成功", orders);
     }
@@ -148,5 +184,25 @@ public class UserController {
     public Result terminateUser(@RequestBody User user){
         userService.terminateByUser(user);
         return Result.ok("注销成功");
+    }
+
+    private static String getPay(){
+        try {
+            File imgFile = new File("./src/main/resources/pay/default.png");
+            FileInputStream fis = new FileInputStream(imgFile);
+            byte[] data = new byte[(int) imgFile.length()];
+            fis.read(data);
+            fis.close();
+            return Base64.getEncoder().encodeToString(data);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        getPay();
     }
 }

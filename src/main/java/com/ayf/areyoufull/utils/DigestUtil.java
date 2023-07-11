@@ -1,6 +1,8 @@
 package com.ayf.areyoufull.utils;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -111,7 +113,7 @@ public class DigestUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(DigestUtil.hmacSign("123456"));
+        System.out.println();
     }
 }
 

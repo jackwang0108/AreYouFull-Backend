@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AlipayUtil {
-
     @Value("${alipay.appId}")
     private String appId;
 

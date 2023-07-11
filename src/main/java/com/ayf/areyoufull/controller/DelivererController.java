@@ -5,24 +5,54 @@ import com.ayf.areyoufull.entity.Order;
 import com.ayf.areyoufull.entity.Result;
 import com.ayf.areyoufull.service.DelivererService;
 import com.ayf.areyoufull.utils.DigestUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/deliverer/{delivererID}")
 public class DelivererController {
     private final DelivererService delivererService;
+    private static StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate){
+        DelivererController.stringRedisTemplate = stringRedisTemplate;
+    }
 
     @Autowired
     public DelivererController(DelivererService delivererService) {
         this.delivererService = delivererService;
     }
 
-    @PostMapping("/position")
-    public Result realTimePosition(@RequestBody Integer integer){
-        return Result.ok();
+
+    @PostMapping("/position/update")
+    public Result updatePosition(@RequestBody Map<String, Integer> position, @PathVariable Integer delivererID){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String pos = objectMapper.writeValueAsString(position);
+            stringRedisTemplate.opsForValue().set(String.valueOf(delivererID), pos);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return Result.ok("更新成功");
+    }
+
+    @GetMapping("/position/draw")
+    public Result getPosition(@PathVariable Integer delivererID){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map pos = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(delivererID)), Map.class);
+            return Result.ok("获取成功", pos);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return Result.err(Result.CODE_ERR_BUSINESS, "业务错误");
     }
 
     @GetMapping("/orders/available")

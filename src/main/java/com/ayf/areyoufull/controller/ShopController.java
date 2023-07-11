@@ -7,24 +7,53 @@ import com.ayf.areyoufull.entity.Result;
 import com.ayf.areyoufull.entity.Shop;
 import com.ayf.areyoufull.service.ShopService;
 import com.ayf.areyoufull.utils.DigestUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/shop/{merchantID}")
 public class ShopController {
     private final ShopService shopService;
+    private static StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate){
+        ShopController.stringRedisTemplate = stringRedisTemplate;
+    }
 
     @Autowired
     public ShopController(ShopService shopService) {
         this.shopService = shopService;
     }
 
-    @PostMapping("/position")
-    public Result realTimePosition(@RequestBody Integer integer){
-        return Result.ok();
+    @PostMapping("/position/update")
+    public Result updatePosition(@RequestBody Map<String, Integer> position, @PathVariable Integer merchantID){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String pos = objectMapper.writeValueAsString(position);
+            stringRedisTemplate.opsForValue().set(String.valueOf(merchantID), pos);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return Result.ok("更新成功");
+    }
+
+    @GetMapping("/position/draw")
+    public Result getPosition(@PathVariable Integer merchantID){
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map pos = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(merchantID)), Map.class);
+            return Result.ok("获取成功", pos);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return Result.err(Result.CODE_ERR_BUSINESS, "业务错误");
     }
 
     @GetMapping("/orders/available")

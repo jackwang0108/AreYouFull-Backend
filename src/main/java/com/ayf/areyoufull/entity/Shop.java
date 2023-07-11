@@ -1,17 +1,21 @@
 package com.ayf.areyoufull.entity;
 
+import java.util.Random;
+
 public class Shop {
     private Integer shopID;
     private Integer merchantID;
     private Account account;
     private Address address;
     private String shopName;
-    private String shopImg;
-    private String shopIntro;
+    private String shopImg = "./defaultShop.jpg";
+    private String shopIntro = "这个商家很懒，什么都没有留下";
+    private Integer sales = 200 + new Random().nextInt(50);
+    private Double rating = 4.0 + new Random().nextDouble(1.0);
 
     public Shop() {}
 
-    public Shop(Integer shopID, Integer merchantID, Account account, Address address, String shopName, String shopImg, String shopIntro) {
+    public Shop(Integer shopID, Integer merchantID, Account account, Address address, String shopName, String shopImg, String shopIntro, Integer sales, Double rating) {
         this.shopID = shopID;
         this.merchantID = merchantID;
         this.account = account;
@@ -19,6 +23,8 @@ public class Shop {
         this.shopName = shopName;
         this.shopImg = shopImg;
         this.shopIntro = shopIntro;
+        this.sales = sales;
+        this.rating = rating;
     }
 
     public Integer getShopID() {
@@ -77,14 +83,34 @@ public class Shop {
         this.shopIntro = shopIntro;
     }
 
+    public Integer getSales() {
+        return sales;
+    }
+
+    public void setSales(Integer sales) {
+        this.sales = sales;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
     @Override
     public String toString() {
         return "Shop{" +
                 "shopID=" + shopID +
                 ", merchantID=" + merchantID +
+                ", account=" + account +
+                ", address=" + address +
                 ", shopName='" + shopName + '\'' +
                 ", shopImg='" + shopImg + '\'' +
                 ", shopIntro='" + shopIntro + '\'' +
+                ", sales='" + sales + '\'' +
+                ", rating='" + rating + '\'' +
                 '}';
     }
 }
