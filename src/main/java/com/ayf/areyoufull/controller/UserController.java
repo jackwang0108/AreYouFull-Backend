@@ -53,18 +53,6 @@ public class UserController {
         return Result.ok("更新成功");
     }
 
-    @GetMapping("/position/draw")
-    public Result getPosition(@PathVariable Integer userID){
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map pos = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(userID)), Map.class);
-            return Result.ok("获取成功", getCurrPos());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return Result.err(Result.CODE_ERR_BUSINESS, "业务错误");
-    }
-
     @PostMapping("/browse/shop")
     public Result getShops(@RequestBody Map<String, Integer> body){
         List<Shop> shops = userService.browseShops(body.get("amount"));
@@ -198,22 +186,5 @@ public class UserController {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static List<Map<String, Double>> getPos(){
-        ArrayList<Map<String, Double>> posList = new ArrayList<>();
-        Map<String, Double> pos = new HashMap<>();
-        pos.put("lng", 34.293473);
-        pos.put("lat", 108.934044);
-        posList.add(pos);
-        return posList;
-    }
-    private static int cnt = 0;
-    private static Map<String, Double>[] getCurrPos(){
-        List<Map<String, Double>> userPos = UserController.getPos();
-        List<Map<String, Double>> shopPos = ShopController.getPos();
-        List<Map<String, Double>> delivererPos = DelivererController.getPos();
-        Map[] maps = {userPos.get(0), shopPos.get(0), delivererPos.get(cnt++)};
-        return maps;
     }
 }

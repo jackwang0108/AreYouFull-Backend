@@ -71,7 +71,7 @@ public class RegisterController {
         account.setAvatar(Account.defaultAvatar);
         account.setEmail(Account.defaultEmail);
         Integer nextAddressID = IDGenerator.getNextAddressID();
-        Address address = shop.getAddress();
+        Address address = shop.getAddress().get(0);
         address.setAddressID(nextAddressID);
         address.setAccountID(nextAccountID);
         shopService.newShop(shop);

@@ -1,12 +1,13 @@
 package com.ayf.areyoufull.entity;
 
+import java.util.List;
 import java.util.Random;
 
 public class Shop {
     private Integer shopID;
     private Integer merchantID;
     private Account account;
-    private Address address;
+    private List<Address> address;
     private String shopName;
     private String shopImg = "./defaultShop.jpg";
     private String shopIntro = "这个商家很懒，什么都没有留下";
@@ -15,7 +16,7 @@ public class Shop {
 
     public Shop() {}
 
-    public Shop(Integer shopID, Integer merchantID, Account account, Address address, String shopName, String shopImg, String shopIntro, Integer sales, Double rating) {
+    public Shop(Integer shopID, Integer merchantID, Account account, List<Address> address, String shopName, String shopImg, String shopIntro, Integer sales, Double rating) {
         this.shopID = shopID;
         this.merchantID = merchantID;
         this.account = account;
@@ -51,11 +52,11 @@ public class Shop {
         this.account = account;
     }
 
-    public Address getAddress() {
+    public List<Address> getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(List<Address> address) {
         this.address = address;
     }
 
@@ -105,7 +106,7 @@ public class Shop {
                 "shopID=" + shopID +
                 ", merchantID=" + merchantID +
                 ", account=" + account +
-                ", address=" + address +
+                ", address=" + address.get(0) +
                 ", shopName='" + shopName + '\'' +
                 ", shopImg='" + shopImg + '\'' +
                 ", shopIntro='" + shopIntro + '\'' +

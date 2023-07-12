@@ -36,7 +36,7 @@ public class ShopDaoImpl implements ShopDao {
         shop.setAccount(account);
         List<Address> addresses = addressMapper.findByAccountID(account.getAccountID());
         if (!addresses.isEmpty())
-            shop.setAddress(addresses.get(0));
+            shop.setAddress(addresses);
         return shop;
     }
 
@@ -47,15 +47,15 @@ public class ShopDaoImpl implements ShopDao {
         shop.setAccount(account);
         List<Address> addresses = addressMapper.findByAccountID(account.getAccountID());
         if (!addresses.isEmpty())
-            shop.setAddress(addresses.get(0));
+            shop.setAddress(addresses);
         return shop;
     }
 
     @Override
     public void newShop(Shop shop) {
         accountMapper.newAccount(shop.getAccount());
-        if (shop.getAddress() != null)
-            addressMapper.newAddress(shop.getAddress());
+        if (!shop.getAddress().isEmpty())
+            addressMapper.newAddress(shop.getAddress().get(0));
         shopMapper.newShop(shop);
     }
 
@@ -95,7 +95,7 @@ public class ShopDaoImpl implements ShopDao {
         List<Address> addresses = addressMapper.findByAccountID(shop.getMerchantID());
 //        if (addresses.size() != 1 || !addresses.get(0).getAddressID().equals(shop.getAddress().getAddressID()))
 //            throw new BusinessException("更新失败");
-        addressMapper.updateByAddress(shop.getAddress());
+        addressMapper.updateByAddress(shop.getAddress().get(0));
         shopMapper.updateShop(shop);
     }
 

@@ -45,18 +45,6 @@ public class DelivererController {
         return Result.ok("更新成功");
     }
 
-    @GetMapping("/position/draw")
-    public Result getPosition(@PathVariable Integer delivererID){
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map pos = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(delivererID)), Map.class);
-            return Result.ok("获取成功", getCurrPos());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return Result.err(Result.CODE_ERR_BUSINESS, "业务错误");
-    }
-
     @GetMapping("/orders/available")
     public Result availableOrders(){
         Order order = new Order();
@@ -134,36 +122,5 @@ public class DelivererController {
     public Result terminateAccount(Deliverer deliverer){
         delivererService.terminateByDeliverer(deliverer);
         return Result.ok();
-    }
-
-    public static List<Map<String, Double>> getPos(){
-        Double[] lng = {
-                34.29381, 34.293746, 34.293634, 34.293591, 34.293591, 34.293516,
-                34.293233, 34.293142, 34.292897, 34.292737, 34.29279, 34.292779,
-                34.292774, 34.292753, 34.292758, 34.292742, 34.292737, 34.292838,
-                34.292993, 34.293126, 34.293249, 34.293356, 34.293489, 34.293489
-        };
-        Double[] lat = {
-                108.936074, 108.936061, 108.936087, 108.936074, 108.936035, 108.93608,
-                108.936061, 108.936067, 108.936061, 108.936061, 108.935751, 108.935596,
-                108.93524, 108.934949, 108.934801, 108.934187, 108.934135, 108.933915,
-                108.933935, 108.933941, 108.933928, 108.933922, 108.934057, 108.934057
-        };
-        ArrayList<Map<String, Double>> posList = new ArrayList<>();
-        for (int i = 0; i < lng.length; ++i){
-            Map<String, Double> pos = new HashMap<>();
-            pos.put("lng", lng[i]);
-            pos.put("lat", lat[i]);
-            posList.add(pos);
-        }
-        return posList;
-    }
-    private static int cnt = 0;
-    private static Map<String, Double>[] getCurrPos(){
-        List<Map<String, Double>> userPos = UserController.getPos();
-        List<Map<String, Double>> shopPos = ShopController.getPos();
-        List<Map<String, Double>> delivererPos = DelivererController.getPos();
-        Map[] maps = {userPos.get(0), shopPos.get(0), delivererPos.get(cnt++)};
-        return maps;
     }
 }

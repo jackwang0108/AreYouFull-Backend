@@ -46,18 +46,6 @@ public class ShopController {
         return Result.ok("更新成功");
     }
 
-    @GetMapping("/position/draw")
-    public Result getPosition(@PathVariable Integer merchantID){
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map pos = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(merchantID)), Map.class);
-            return Result.ok("获取成功", getCurrPos());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return Result.err(Result.CODE_ERR_BUSINESS, "业务错误");
-    }
-
     @GetMapping("/orders/available")
     public Result availableOrders(){
         Order order = new Order();
@@ -153,7 +141,7 @@ public class ShopController {
     @PostMapping("/modify")
     public Result modifyShopInfo(@RequestBody Shop shop){
         shop.getAccount().setPassword(DigestUtil.hmacSign(shop.getAccount().getPassword()));
-        shop.getAddress().setAddressID(IDGenerator.getNextAddressID());
+        shop.getAddress().get(0).setAddressID(IDGenerator.getNextAddressID());
         shopService.modifyShopInfo(shop);
         return Result.ok("更新成功");
     }
@@ -162,23 +150,5 @@ public class ShopController {
     public Result terminateShop(Shop shop){
         shopService.terminateShop(shop);
         return Result.ok("注销成功");
-    }
-
-    public static List<Map<String, Double>> getPos(){
-        ArrayList<Map<String, Double>> posList = new ArrayList<>();
-        Map<String, Double> pos = new HashMap<>();
-        pos.put("lng", 34.293863);
-        pos.put("lat", 108.936053);
-        posList.add(pos);
-        return posList;
-    }
-
-    private static int cnt = 0;
-    private static Map<String, Double>[] getCurrPos(){
-        List<Map<String, Double>> userPos = UserController.getPos();
-        List<Map<String, Double>> shopPos = ShopController.getPos();
-        List<Map<String, Double>> delivererPos = DelivererController.getPos();
-        Map[] maps = {userPos.get(0), shopPos.get(0), delivererPos.get(cnt++)};
-        return maps;
     }
 }
