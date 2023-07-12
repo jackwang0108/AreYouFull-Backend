@@ -32,6 +32,7 @@ public class ShopDaoImpl implements ShopDao {
     @Override
     public Shop findShopByShopID(Integer shopID) {
         Shop shop = shopMapper.findByShopID(shopID);
+        if (shop == null) return null;
         Account account = accountMapper.findByAccountID(shop.getMerchantID());
         shop.setAccount(account);
         List<Address> addresses = addressMapper.findByAccountID(account.getAccountID());
@@ -43,6 +44,7 @@ public class ShopDaoImpl implements ShopDao {
     @Override
     public Shop findShopByMerchantID(Integer merchantID) {
         Shop shop = shopMapper.findByMerchantID(merchantID);
+        if (shop == null) return null;
         Account account = accountMapper.findByAccountID(shop.getMerchantID());
         shop.setAccount(account);
         List<Address> addresses = addressMapper.findByAccountID(account.getAccountID());

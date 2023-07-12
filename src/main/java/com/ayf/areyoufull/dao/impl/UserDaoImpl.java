@@ -28,6 +28,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findUserByUserID(Integer userID) {
         User user = userMapper.findByID(userID);
+        if (user == null) return null;
         Account account = accountMapper.findByAccountID(userID);
         user.setAccount(account);
         List<Address> addresses = addressMapper.findByAccountID(userID);

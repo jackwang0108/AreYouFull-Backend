@@ -57,7 +57,7 @@ public class ShopController {
     @GetMapping("/orders/unfinished")
     public Result unfinishedOrders(){
         Order order = new Order();
-        order.setStatus(Order.ORDER_MERCHANT_ASSURED);
+        order.setStatus(Order.ORDER_PAYED);
         List<Order> orders = shopService.queryOrderByStatus(order);
         return Result.ok("获取成功", orders);
     }

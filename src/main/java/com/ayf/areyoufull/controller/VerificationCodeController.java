@@ -35,6 +35,7 @@ public class VerificationCodeController {
         ByteArrayOutputStream baos = null;
         try {
             String code = captchaProducer.createText(); // 验证码4位字符
+            System.out.println(code);
             BufferedImage bi = captchaProducer.createImage(code); // 验证码图片
             baos = new ByteArrayOutputStream();
             ImageIO.write(bi, "jpg", baos);

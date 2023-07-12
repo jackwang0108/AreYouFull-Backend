@@ -37,33 +37,41 @@ public class PositionController {
         PositionController.stringRedisTemplate = stringRedisTemplate;
     }
 
-    @GetMapping("/position/draw")
-    public Result getPosition(@RequestBody Integer orderID){
+    @PostMapping("/draw")
+    public Result getPosition(@RequestBody Map<String, Integer> body){
         Order order = new Order();
-        order.setOrderID(orderID);
+        order.setOrderID(body.get("orderID"));
         Order byID = userService.queryOrderByOrderID(order);
         Integer userID = byID.getUserID();
         Integer shopID = byID.getShopID();
         Shop shop = shopService.getShopByShopID(shopID);
         Integer merchantID = shop.getMerchantID();
         Integer delivererID = byID.getDelivererID();
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map[] maps = new Map[3];
-            maps[0] = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(merchantID)), Map.class);
-            maps[1] = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(delivererID)), Map.class);
-            maps[2] = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(userID)), Map.class);
-            return Result.ok("获取成功", maps);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return Result.err(Result.CODE_ERR_BUSINESS, "业务错误");
+//        try {
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            Map[] maps = new Map[3];
+//            maps[0] = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(merchantID)), Map.class);
+//            maps[1] = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(delivererID)), Map.class);
+//            maps[2] = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(userID)), Map.class);
+//
+//            return Result.ok("获取成功", maps);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+        return Result.ok("获取成功", getCurrPos(body.get("orderID")));
+//        return Result.err(Result.CODE_ERR_BUSINESS, "业务错误");
     }
 
 
-    private static List<Map<String, Double>> userPos = new ArrayList<>();
-    private static List<Map<String, Double>[]> delivererPos = new ArrayList<>();
-    private static List<Map<String, Double>> shopPos = new ArrayList<>();
+    private static List<Map<String, Double>> userPos;
+    private static List<Map<String, Double>[]> delivererPos;
+    private static List<Map<String, Double>> shopPos;
+    static {
+        userPos = new ArrayList<>();
+        delivererPos = new ArrayList<>();
+        shopPos = new ArrayList<>();
+        genePos();
+    }
     public static void genePos(){
         HashMap<String, Double> pos = new HashMap<>();
         pos.put("lng", 108.953557);

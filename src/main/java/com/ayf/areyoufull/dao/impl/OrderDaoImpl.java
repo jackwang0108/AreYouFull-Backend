@@ -38,7 +38,8 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order findOrderByOrderID(Order order) {
         Order byOrderID = orderMapper.findByOrderID(order.getOrderID());
-        List<OrderDetail> details = orderDetailMapper.findByOrderID(order.getOrderID());
+        if (byOrderID == null) return null;
+        List<OrderDetail> details = orderDetailMapper.findByOrderID(byOrderID.getOrderID());
         byOrderID.setOrderDetail(details);
         return byOrderID;
     }

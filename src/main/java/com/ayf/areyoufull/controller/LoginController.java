@@ -1,9 +1,6 @@
 package com.ayf.areyoufull.controller;
 
-import com.ayf.areyoufull.entity.CurrentAccount;
-import com.ayf.areyoufull.entity.LoginAccount;
-import com.ayf.areyoufull.entity.Result;
-import com.ayf.areyoufull.entity.User;
+import com.ayf.areyoufull.entity.*;
 import com.ayf.areyoufull.exception.BusinessException;
 import com.ayf.areyoufull.service.DelivererService;
 import com.ayf.areyoufull.service.ShopService;
@@ -48,18 +45,40 @@ public class LoginController {
             accountType = 2;
         else {
             accountType = -1;
-            return Result.err(Result.CODE_ERR_BUSINESS, "账号错误");
         }
         String key = LoginController.stringRedisTemplate.opsForValue().get(loginAccount.getVerificationKey());
         if (!loginAccount.getVerificationCode().equals(key))
             return Result.err(Result.CODE_ERR_BUSINESS, "验证码错误");
-        User byID = userService.getUserByUserID(loginAccount.getAccountID());
-        if (DigestUtil.hmacSign(loginAccount.getPassword()).equals(byID.getAccount().getPassword())) {
-            String token = key;
-            ConnectionUrlParser.Pair<Integer, String> integerStringPair = new ConnectionUrlParser.Pair<>(accountType, token);
-            return Result.ok("登陆成功", integerStringPair);
-        } else
-            return Result.err(Result.CODE_ERR_BUSINESS, "密码错误");
+        switch (accountType){
+            case 0 -> {
+                User byID = userService.getUserByUserID(loginAccount.getAccountID());
+                if (DigestUtil.hmacSign(loginAccount.getPassword()).equals(byID.getAccount().getPassword())) {
+                    String token = key;
+                    ConnectionUrlParser.Pair<Integer, String> integerStringPair = new ConnectionUrlParser.Pair<>(accountType, token);
+                    return Result.ok("登陆成功", integerStringPair);
+                } else
+                    return Result.err(Result.CODE_ERR_BUSINESS, "密码错误");
+            }
+            case 1 -> {
+                Deliverer byID = delivererService.getDelivererByDelivererID(loginAccount.getAccountID());
+                if (DigestUtil.hmacSign(loginAccount.getPassword()).equals(byID.getAccount().getPassword())) {
+                    String token = key;
+                    ConnectionUrlParser.Pair<Integer, String> integerStringPair = new ConnectionUrlParser.Pair<>(accountType, token);
+                    return Result.ok("登陆成功", integerStringPair);
+                } else
+                    return Result.err(Result.CODE_ERR_BUSINESS, "密码错误");
+            }
+            case 2 -> {
+                Shop byID = shopService.getShopByMerchantID(loginAccount.getAccountID());
+                if (DigestUtil.hmacSign(loginAccount.getPassword()).equals(byID.getAccount().getPassword())) {
+                    String token = key;
+                    ConnectionUrlParser.Pair<Integer, String> integerStringPair = new ConnectionUrlParser.Pair<>(accountType, token);
+                    return Result.ok("登陆成功", integerStringPair);
+                } else
+                    return Result.err(Result.CODE_ERR_BUSINESS, "密码错误");
+            }
+        }
+        return Result.err(Result.CODE_ERR_BUSINESS, "账号错误");
     }
 
     @GetMapping("/curr-user")

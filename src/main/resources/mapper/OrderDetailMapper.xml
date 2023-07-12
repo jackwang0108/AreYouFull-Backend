@@ -19,6 +19,6 @@
     <select id="findByOrderID" parameterType="Integer" resultType="com.ayf.areyoufull.entity.OrderDetail">
         select *
         from orderDetail
-        where orderID = #{orderDetail.orderID}
+        where orderID = #{orderID}
     </select>
 </mapper>
