@@ -203,6 +203,6 @@ public class UserController {
     }
 
     public static void main(String[] args) {
-        getPay();
+        System.out.println(getPay());
     }
 }
