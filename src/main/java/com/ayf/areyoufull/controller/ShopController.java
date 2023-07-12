@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +51,7 @@ public class ShopController {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Map pos = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(merchantID)), Map.class);
-            return Result.ok("获取成功", pos);
+            return Result.ok("获取成功", getCurrPos());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -160,5 +162,23 @@ public class ShopController {
     public Result terminateShop(Shop shop){
         shopService.terminateShop(shop);
         return Result.ok("注销成功");
+    }
+
+    public static List<Map<String, Double>> getPos(){
+        ArrayList<Map<String, Double>> posList = new ArrayList<>();
+        Map<String, Double> pos = new HashMap<>();
+        pos.put("lng", 34.293863);
+        pos.put("lat", 108.936053);
+        posList.add(pos);
+        return posList;
+    }
+
+    private static int cnt = 0;
+    private static Map<String, Double>[] getCurrPos(){
+        List<Map<String, Double>> userPos = UserController.getPos();
+        List<Map<String, Double>> shopPos = ShopController.getPos();
+        List<Map<String, Double>> delivererPos = DelivererController.getPos();
+        Map[] maps = {userPos.get(0), shopPos.get(0), delivererPos.get(cnt++)};
+        return maps;
     }
 }

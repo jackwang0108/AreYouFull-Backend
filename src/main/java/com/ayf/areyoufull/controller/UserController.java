@@ -21,9 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user/{userID}")
@@ -60,7 +58,7 @@ public class UserController {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             Map pos = objectMapper.readValue(stringRedisTemplate.opsForValue().get(String.valueOf(userID)), Map.class);
-            return Result.ok("获取成功", pos);
+            return Result.ok("获取成功", getCurrPos());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -202,7 +200,20 @@ public class UserController {
         return null;
     }
 
-    public static void main(String[] args) {
-        System.out.println(getPay());
+    public static List<Map<String, Double>> getPos(){
+        ArrayList<Map<String, Double>> posList = new ArrayList<>();
+        Map<String, Double> pos = new HashMap<>();
+        pos.put("lng", 34.293473);
+        pos.put("lat", 108.934044);
+        posList.add(pos);
+        return posList;
+    }
+    private static int cnt = 0;
+    private static Map<String, Double>[] getCurrPos(){
+        List<Map<String, Double>> userPos = UserController.getPos();
+        List<Map<String, Double>> shopPos = ShopController.getPos();
+        List<Map<String, Double>> delivererPos = DelivererController.getPos();
+        Map[] maps = {userPos.get(0), shopPos.get(0), delivererPos.get(cnt++)};
+        return maps;
     }
 }
